@@ -31,7 +31,7 @@ const I18N = {
     chipDays: (d) => `📅 已运行 ${d} 天`,
     chipRepos: (n) => `📦 累计追踪 ${n} 个仓库`,
     chipSource: '⭐ 数据源 GitHub Trending',
-    chipAuto: '🕙 每天自动更新',
+    chipAuto: '🕙 每天 10:00 更新',
     hRank: '排名', hProject: '项目', hCompany: '所属公司', hTrend: '趋势',
     hWeekly: (since) => (since === 'daily' ? '今日新增关注' : '本周新增关注'),
     hTotal: '累计关注',
@@ -70,7 +70,7 @@ const I18N = {
     chipDays: (d) => `📅 Running for ${d} day${d > 1 ? 's' : ''}`,
     chipRepos: (n) => `📦 Tracking ${n} repos`,
     chipSource: '⭐ Source: GitHub Trending',
-    chipAuto: '🕙 Auto-updated daily',
+    chipAuto: '🕙 Updates daily 10:00 AM (UTC+8)',
     hRank: 'Rank', hProject: 'Project', hCompany: 'Company', hTrend: 'Trend',
     hWeekly: (since) => (since === 'daily' ? "Today's Stars" : 'Weekly Stars'),
     hTotal: 'Total Stars',
@@ -182,7 +182,7 @@ const displayTitle = (r) => (LANG === 'zh' ? r.title || shortName(r.repo) : shor
 const displayDesc = (r) => (LANG === 'zh' ? r.descriptionZh || r.description : r.description);
 const displayCompany = (r) => (LANG === 'en' && r.companyEn ? r.companyEn : r.company || '');
 
-function renderRanking(data, label) {
+function renderRanking(data) {
   $ranking.replaceChildren();
   const repos = data.repos || [];
   if (repos.length === 0) {
@@ -190,7 +190,9 @@ function renderRanking(data, label) {
     return;
   }
 
-  $subtitle.textContent = T.subtitle(data.since, label);
+  // 日期统一显示数据生成时的北京时间（脚本写入 generatedAtLocal；旧数据回退 UTC 日期）
+  const dateLabel = data.generatedAtLocal || (data.generatedAt ? data.generatedAt.slice(0, 10) : '');
+  $subtitle.textContent = T.subtitle(data.since, dateLabel);
   document.getElementById('table-head').children[4].textContent = T.hWeekly(data.since || CURRENT_SINCE);
   const $h1 = document.querySelector('.hero h1');
   const tp = T.title(data.since || CURRENT_SINCE);
@@ -242,7 +244,7 @@ function renderRanking(data, label) {
   }
 
   const when = new Date(data.generatedAt);
-  $updatedAt.textContent = T.footSource(isNaN(when) ? label : when.toLocaleString(LANG === 'zh' ? 'zh-CN' : 'en-US'));
+  $updatedAt.textContent = T.footSource(isNaN(when) ? dateLabel : when.toLocaleString(LANG === 'zh' ? 'zh-CN' : 'en-US'));
 }
 
 async function loadJson(url) {
@@ -261,7 +263,7 @@ async function loadLatest(since) {
 async function showLatest() {
   try {
     const data = await loadLatest(CURRENT_SINCE);
-    renderRanking(data, data.generatedAt ? data.generatedAt.slice(0, 10) : '');
+    renderRanking(data);
   } catch (err) {
     $ranking.replaceChildren(el('div', 'empty', T.loadFail(err.message)));
   }
@@ -418,7 +420,7 @@ async function showArchive(date, since) {
   $ranking.replaceChildren(el('div', 'loading', T.archiveLoading(date)));
   try {
     const data = await loadJson(archiveUrl(date, since || CURRENT_SINCE));
-    renderRanking(data, date);
+    renderRanking(data);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   } catch (err) {
     $ranking.replaceChildren(el('div', 'empty', T.archiveFail(err.message)));

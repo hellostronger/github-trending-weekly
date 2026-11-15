@@ -299,7 +299,7 @@ function updateTrends(date, since, todayRepos) {
 const SINCE_WORD = { daily: 'today', weekly: 'week', monthly: 'month' };
 
 /** 抓取并构建一个榜单（since = weekly | daily | monthly），返回完整 payload */
-async function buildChart(since, nowIso) {
+async function buildChart(since, nowIso, beijingDate) {
   const url = `https://github.com/trending?since=${since}`;
   console.log(`抓取 ${url} ...`);
   const html = await fetchText(url);
@@ -354,7 +354,7 @@ async function buildChart(since, nowIso) {
   });
   if (top.length === 0) throw new Error(`[${since}] 没有可用数据`);
 
-  return { generatedAt: nowIso, since, topN: TOP_N, repos: top };
+  return { generatedAt: nowIso, generatedAtLocal: beijingDate, since, topN: TOP_N, repos: top };
 }
 
 async function main() {
@@ -374,14 +374,15 @@ async function main() {
   }
 
   const now = new Date();
-  const date = now.toISOString().slice(0, 10);
+  // 日期统一按北京时间标注（页面受众在国内），避免凌晨时段 UTC 日期「落后一天」的困惑
+  const date = now.toLocaleDateString('en-CA', { timeZone: 'Asia/Shanghai' }); // en-CA 输出 YYYY-MM-DD
   const historyEntries = [];
   const failures = [];
 
   for (const since of CHARTS) {
     let payload;
     try {
-      payload = await buildChart(since, now.toISOString());
+      payload = await buildChart(since, now.toISOString(), date);
     } catch (err) {
       // 单个榜单失败不拖垮整个运行：其他榜单照常产出，LLM 缓存也能落盘提交
       console.warn(`[${since}] 本期抓取失败，跳过：${err.message}`);
