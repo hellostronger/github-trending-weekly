@@ -1,19 +1,21 @@
 #!/usr/bin/env node
 /**
- * 抓取 GitHub Trending 周榜，生成监控数据：
- *   data/latest.json            当前一周 Top 10（页面主展示）
- *   data/archive/<date>.json    按天归档（历史可回看）
- *   data/history.json           归档索引（页面「往期榜单」用）
- *   data/trends.json            趋势时间线：每个上榜仓库每天的 star 快照
+ * 抓取 GitHub Trending（周榜 + 日榜），生成监控数据：
+ *   data/latest.json               周榜 Top N（页面默认视图）
+ *   data/latest-daily.json         日榜 Top N
+ *   data/archive/<date>.json       周榜按天归档（历史可回看）
+ *   data/archive/daily-<date>.json 日榜按天归档
+ *   data/history.json              归档索引（页面「往期榜单」用）
+ *   data/trends.json               趋势时间线：仓库 -> [{date, since, stars, gained}]
  *
  * 数据来源：
- *   1. https://github.com/trending?since=weekly  —— 每个仓库自带 "N stars this week"（本周新增）
- *   2. GitHub REST API /repos/{owner}/{repo}      —— 累计 star、描述、语言、所属类型
+ *   1. https://github.com/trending?since=weekly|daily —— 每个仓库自带 "N stars this week/day"
+ *   2. GitHub REST API /repos/{owner}/{repo}           —— 累计 star、描述、语言、所属类型
  *
  * 可选环境变量：
- *   GITHUB_TOKEN      提升 API 限流（60 次/小时 -> 5000 次/小时）
- *   TRENDING_SINCE    weekly（默认）| daily | monthly
- *   TOP_N             取前几名，默认 10
+ *   GITHUB_TOKEN   提升 API 限流（60 次/小时 -> 5000 次/小时）
+ *   CHARTS         要抓的榜单，逗号分隔，默认 weekly,daily
+ *   TOP_N          取前几名，默认 10
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -23,8 +25,11 @@ const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DATA_DIR = path.join(ROOT, 'data');
 const ARCHIVE_DIR = path.join(DATA_DIR, 'archive');
 const TOP_N = Number(process.env.TOP_N || 10);
-const SINCE = process.env.TRENDING_SINCE || 'weekly';
-const TRENDING_URL = `https://github.com/trending?since=${SINCE}`;
+const CHARTS = (process.env.CHARTS || 'weekly,daily')
+  .split(',')
+  .map((s) => s.trim().toLowerCase())
+  .filter((s) => ['daily', 'weekly', 'monthly'].includes(s));
+if (CHARTS.length === 0) CHARTS.push('weekly');
 
 /** org(小写) -> 中英文展示名；没匹配上的 Organization 显示 login，个人账号显示「个人开发者/Individual」 */
 const COMPANY_MAP = {
@@ -97,7 +102,7 @@ async function ghApi(pathname) {
   return res.json();
 }
 
-/** 从 trending 页面按 <article> 块解析出仓库路径与 "N stars this week" */
+/** 从 trending 页面按 <article> 块解析出仓库路径与 "N stars this week/day" */
 function parseTrending(html, sinceWord) {
   const re = new RegExp(`([\\d,]+)\\s+stars this ${sinceWord}`, 'i');
   const repos = [];
@@ -184,56 +189,6 @@ function extractJsonArray(text) {
   throw new Error('LLM 输出中没有可解析的 JSON 数组');
 }
 
-const TREND_RETENTION_DAYS = 180;
-
-/**
- * 趋势追踪：维护 仓库 -> [{date, stars, weeklyStars}] 时间线。
- * 当天快照按日期 upsert（同天重复运行只保留最新）；
- * 并从历史归档回填，保证脚本升级后趋势数据也能补齐。
- */
-function updateTrends(date, todayRepos) {
-  const file = path.join(DATA_DIR, 'trends.json');
-  const trends = loadJson(file, {});
-
-  // 从归档回填缺失的日期
-  try {
-    for (const f of fs.readdirSync(ARCHIVE_DIR)) {
-      const m = f.match(/^(\d{4}-\d{2}-\d{2})\.json$/);
-      if (!m) continue;
-      const snap = loadJson(path.join(ARCHIVE_DIR, f), null);
-      if (!snap || !Array.isArray(snap.repos)) continue;
-      for (const r of snap.repos) {
-        trends[r.repo] ??= [];
-        if (!trends[r.repo].some((p) => p.date === m[1])) {
-          trends[r.repo].push({ date: m[1], stars: r.stars, weeklyStars: r.weeklyStars });
-        }
-      }
-    }
-  } catch {
-    /* 归档缺失不影响主流程 */
-  }
-
-  // 追加/更新当天数据点
-  for (const r of todayRepos) {
-    trends[r.repo] ??= [];
-    const point = { date, stars: r.stars, weeklyStars: r.weeklyStars };
-    const i = trends[r.repo].findIndex((p) => p.date === date);
-    if (i >= 0) trends[r.repo][i] = point;
-    else trends[r.repo].push(point);
-  }
-
-  // 排序 + 只保留最近 N 天，避免无限膨胀
-  const cutoff = new Date(Date.now() - TREND_RETENTION_DAYS * 86_400_000).toISOString().slice(0, 10);
-  for (const repo of Object.keys(trends)) {
-    trends[repo] = trends[repo]
-      .sort((a, b) => a.date.localeCompare(b.date))
-      .filter((p) => p.date >= cutoff);
-    if (trends[repo].length === 0) delete trends[repo];
-  }
-
-  fs.writeFileSync(file, JSON.stringify(trends, null, 2) + '\n');
-}
-
 /** 为一组仓库条目补齐中文翻译（缓存驱动 + 可选 LLM），原地更新 title / descriptionZh */
 async function applyTranslations(entries) {
   const trans = loadJson(path.join(DATA_DIR, 'translations.json'), {});
@@ -262,28 +217,71 @@ async function applyTranslations(entries) {
   }
 }
 
-async function main() {
-  fs.mkdirSync(ARCHIVE_DIR, { recursive: true });
+const TREND_RETENTION_DAYS = 180;
 
-  // 离线模式：只为当前 latest.json 里的仓库补翻译，不抓取（本地网络不佳时使用）
-  if (process.argv.includes('--translate-only')) {
-    const latest = loadJson(path.join(DATA_DIR, 'latest.json'), null);
-    if (!latest || !Array.isArray(latest.repos)) {
-      throw new Error('data/latest.json 不存在，请先跑一次完整抓取');
+const latestName = (since) => (since === 'weekly' ? 'latest.json' : `latest-${since}.json`);
+const archiveName = (since, date) => (since === 'weekly' ? `${date}.json` : `${since}-${date}.json`);
+
+/**
+ * 趋势追踪：维护 仓库 -> [{date, since, stars, gained}] 时间线。
+ * 数据点按 日期+榜单类型 upsert（同天同榜重复运行只保留最新）；
+ * 并从历史归档回填，保证脚本升级后趋势数据也能补齐。
+ */
+function updateTrends(date, since, todayRepos) {
+  const file = path.join(DATA_DIR, 'trends.json');
+  const trends = loadJson(file, {});
+
+  // 从归档回填缺失的数据点（旧格式的 <date>.json 归档都是周榜）
+  try {
+    for (const f of fs.readdirSync(ARCHIVE_DIR)) {
+      const mDaily = f.match(/^daily-(\d{4}-\d{2}-\d{2})\.json$/);
+      const mWeekly = f.match(/^(\d{4}-\d{2}-\d{2})\.json$/);
+      const archSince = mDaily ? 'daily' : mWeekly ? 'weekly' : null;
+      const archDate = (mDaily || mWeekly || [])[1];
+      if (!archDate) continue;
+      const snap = loadJson(path.join(ARCHIVE_DIR, f), null);
+      if (!snap || !Array.isArray(snap.repos)) continue;
+      for (const r of snap.repos) {
+        trends[r.repo] ??= [];
+        if (!trends[r.repo].some((p) => p.date === archDate && (p.since || 'weekly') === archSince)) {
+          trends[r.repo].push({ date: archDate, since: archSince, stars: r.stars, gained: r.weeklyStars });
+        }
+      }
     }
-    await applyTranslations(latest.repos);
-    fs.writeFileSync(path.join(DATA_DIR, 'latest.json'), JSON.stringify(latest, null, 2) + '\n');
-    console.log('离线翻译完成，已更新 data/latest.json');
-    return;
+  } catch {
+    /* 归档缺失不影响主流程 */
   }
 
-  console.log(`抓取 ${TRENDING_URL} ...`);
-  const html = await fetchText(TRENDING_URL);
-  const candidates = parseTrending(html, SINCE.replace(/ly$/, ''));
-  if (candidates.length === 0) {
-    throw new Error('Trending 页面解析结果为空（页面结构可能变化，请检查 parseTrending）');
+  for (const r of todayRepos) {
+    trends[r.repo] ??= [];
+    const point = { date, since, stars: r.stars, gained: r.weeklyStars };
+    const i = trends[r.repo].findIndex((p) => p.date === date && (p.since || 'weekly') === since);
+    if (i >= 0) trends[r.repo][i] = point;
+    else trends[r.repo].push(point);
   }
-  console.log(`解析到 ${candidates.length} 个候选仓库，逐个调用 API 补充信息...`);
+
+  // 排序 + 只保留最近 N 天，避免无限膨胀
+  const cutoff = new Date(Date.now() - TREND_RETENTION_DAYS * 86_400_000).toISOString().slice(0, 10);
+  for (const repo of Object.keys(trends)) {
+    trends[repo] = trends[repo]
+      .sort((a, b) => a.date.localeCompare(b.date))
+      .filter((p) => p.date >= cutoff);
+    if (trends[repo].length === 0) delete trends[repo];
+  }
+
+  fs.writeFileSync(file, JSON.stringify(trends, null, 2) + '\n');
+}
+
+/** 抓取并构建一个榜单（since = weekly | daily | monthly），返回完整 payload */
+async function buildChart(since, nowIso) {
+  const url = `https://github.com/trending?since=${since}`;
+  console.log(`抓取 ${url} ...`);
+  const html = await fetchText(url);
+  const candidates = parseTrending(html, since.replace(/ly$/, ''));
+  if (candidates.length === 0) {
+    throw new Error(`Trending(${since}) 页面解析结果为空（页面结构可能变化，请检查 parseTrending）`);
+  }
+  console.log(`[${since}] 解析到 ${candidates.length} 个候选仓库，逐个调用 API 补充信息...`);
 
   const repos = [];
   for (const { repo, weeklyStars } of candidates) {
@@ -308,7 +306,7 @@ async function main() {
   repos.sort((a, b) => b.weeklyStars - a.weeklyStars);
   const topRaw = repos.slice(0, TOP_N);
 
-  // 中文名/中文描述：titles.json 手工映射优先，其次 LLM 自动翻译（缓存进 translations.json），否则回退英文名
+  // 中文名/中文描述：titles.json 手工映射优先，其次 LLM 自动翻译（缓存），否则回退英文名
   await applyTranslations(topRaw);
 
   const top = topRaw.map((r, i) => {
@@ -327,36 +325,63 @@ async function main() {
       url: r.url,
     };
   });
-  if (top.length === 0) throw new Error('没有可用数据');
+  if (top.length === 0) throw new Error(`[${since}] 没有可用数据`);
+
+  return { generatedAt: nowIso, since, topN: TOP_N, repos: top };
+}
+
+async function main() {
+  fs.mkdirSync(ARCHIVE_DIR, { recursive: true });
+
+  // 离线翻译模式：只为已生成的 latest 文件补翻译，不抓取（本地网络不佳时使用）
+  if (process.argv.includes('--translate-only')) {
+    for (const since of CHARTS) {
+      const file = path.join(DATA_DIR, latestName(since));
+      const latest = loadJson(file, null);
+      if (!latest || !Array.isArray(latest.repos)) continue;
+      await applyTranslations(latest.repos);
+      fs.writeFileSync(file, JSON.stringify(latest, null, 2) + '\n');
+    }
+    console.log('离线翻译完成');
+    return;
+  }
 
   const now = new Date();
   const date = now.toISOString().slice(0, 10);
-  const payload = {
-    generatedAt: now.toISOString(),
-    since: SINCE,
-    topN: TOP_N,
-    repos: top,
-  };
+  const historyEntries = [];
 
-  fs.writeFileSync(path.join(DATA_DIR, 'latest.json'), JSON.stringify(payload, null, 2) + '\n');
-  fs.writeFileSync(path.join(ARCHIVE_DIR, `${date}.json`), JSON.stringify(payload, null, 2) + '\n');
+  for (const since of CHARTS) {
+    const payload = await buildChart(since, now.toISOString());
+    const top = payload.repos;
 
-  // 归档索引：按日期去重（同一天重复运行只保留最新），倒序排列
+    fs.writeFileSync(path.join(DATA_DIR, latestName(since)), JSON.stringify(payload, null, 2) + '\n');
+    fs.writeFileSync(
+      path.join(ARCHIVE_DIR, archiveName(since, date)),
+      JSON.stringify(payload, null, 2) + '\n'
+    );
+    historyEntries.push({ date, since, top1: top[0].repo, top1Title: top[0].title, top1Stars: top[0].stars });
+    updateTrends(date, since, top);
+
+    const label = since === 'daily' ? '今日' : since === 'monthly' ? '本月' : '本周';
+    console.log(`\n${label} Top ${top.length}（${date}）:`);
+    for (const r of top) {
+      console.log(
+        `  ${String(r.rank).padStart(2)}. ${r.repo.padEnd(45)} +${r.weeklyStars.toLocaleString('en-US')} (${r.stars.toLocaleString('en-US')}) ${r.company}`
+      );
+    }
+  }
+
+  // 归档索引：按 日期+榜单类型 去重，倒序排列
   const history = loadJson(path.join(DATA_DIR, 'history.json'), []);
-  const entry = { date, since: SINCE, top1: top[0].repo, top1Title: top[0].title, top1Stars: top[0].stars };
-  const others = history.filter((h) => h.date !== date || h.since !== SINCE);
+  const others = history.filter(
+    (h) => !historyEntries.some((n) => n.date === h.date && n.since === h.since)
+  );
   fs.writeFileSync(
     path.join(DATA_DIR, 'history.json'),
-    JSON.stringify([entry, ...others].sort((a, b) => b.date.localeCompare(a.date)), null, 2) + '\n'
+    JSON.stringify([...historyEntries, ...others].sort((a, b) => b.date.localeCompare(a.date)), null, 2) +
+      '\n'
   );
-
-  updateTrends(date, top);
-
-  console.log(`\n本周 Top ${top.length}（${date}）:`);
-  for (const r of top) {
-    console.log(`  ${String(r.rank).padStart(2)}. ${r.repo.padEnd(45)} +${r.weeklyStars.toLocaleString('en-US')} (${r.stars.toLocaleString('en-US')}) ${r.company}`);
-  }
-  console.log(`\n已写入 data/latest.json、data/archive/${date}.json、data/history.json`);
+  console.log(`\n已写入 data/latest*.json、data/archive/、data/history.json、data/trends.json`);
 }
 
 main().catch((err) => {

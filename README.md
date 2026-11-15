@@ -1,8 +1,8 @@
 # GitHub Trending 周榜监控
 
-监控 GitHub Trending 周榜，自动生成「本周全球最受关注的 10 个开源项目」排行页面，并通过 GitHub Pages 发布。
+监控 GitHub Trending（周榜 + 日榜），自动生成「全球最受关注的开源项目」排行页面，并通过 GitHub Pages 发布。
 
-页面效果：深色星空风格排行榜，展示每期 Top 10 的项目名（中文）、所属公司、编程语言徽章、本周新增 Star、累计 Star 与累计 Star 趋势曲线，支持回看往期榜单和「趋势追踪」卡片区（上榜天数统计，点击卡片定位到榜单行）。
+页面效果：深色星空风格排行榜，支持 **周榜 / 日榜切换**，展示每期 Top 10 的项目名（中文）、所属公司、编程语言徽章、新增 Star、累计 Star 与累计 Star 趋势曲线，支持回看往期榜单和「趋势追踪」卡片区（上榜天数统计，点击卡片定位到榜单行）。
 
 ## 工作原理
 
@@ -80,17 +80,20 @@ npx serve .
 | --- | --- |
 | 仓库中文名 | `data/titles.json`（键为 `owner/repo`；没有的仓库回退显示仓库名） |
 | 所属公司映射 | `scripts/fetch-trending.mjs` 里的 `COMPANY_MAP`（未匹配的 Organization 显示 org 名，个人账号显示「个人开发者」） |
+| 榜单范围 | 环境变量 `CHARTS`（默认 `weekly,daily`，可只留一个或加 `monthly`） |
 | 榜单长度 | 环境变量 `TOP_N`（默认 10） |
 | 日榜/周榜/月榜 | 环境变量 `TRENDING_SINCE`（默认 `weekly`），同时改 `index.html` 标题文案 |
 | 抓取频率 | `.github/workflows/update.yml` 里的 `cron` |
 
 ## 数据文件
 
-- `data/latest.json` —— 当前榜单，页面主视图读取
-- `data/archive/<日期>.json` —— 每日归档，页面「往期榜单」回看
-- `data/history.json` —— 归档索引
-- `data/trends.json` —— 趋势时间线：`仓库 -> [{date, stars, weeklyStars}]`，每天 upsert 一个数据点，
-  保留最近 180 天；页面用它渲染榜单行的迷你趋势曲线和「趋势追踪」卡片区（按上榜天数排序）
+- `data/latest.json` —— 周榜，页面默认视图
+- `data/latest-daily.json` —— 日榜，页面「日榜」tab 读取
+- `data/archive/<日期>.json` —— 周榜按天归档（页面「往期榜单」回看）
+- `data/archive/daily-<日期>.json` —— 日榜按天归档
+- `data/history.json` —— 归档索引（周榜/日榜合并存放，按 `since` 字段区分）
+- `data/trends.json` —— 趋势时间线：`仓库 -> [{date, since, stars, gained}]`，每天每榜 upsert 一个数据点，
+  保留最近 180 天；页面按当前榜单类型渲染迷你趋势曲线和「趋势追踪」卡片区
 - `data/translations.json` —— LLM 自动翻译缓存（`仓库 -> {title, desc}`），配置了 `LLM_API_KEY` 才会生成
 
 ## 常见问题

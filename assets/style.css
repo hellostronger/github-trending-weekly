@@ -112,6 +112,31 @@ body {
 }
 .hero .chip b { color: var(--gold); font-weight: 700; }
 
+/* 周榜/日榜切换 */
+.chart-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 26px;
+}
+.chart-tab {
+  all: unset;
+  cursor: pointer;
+  padding: 7px 24px;
+  border-radius: 999px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #9ba0b0;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.chart-tab:hover { color: #d8dbe4; background: rgba(255, 255, 255, 0.08); }
+.chart-tab.active {
+  color: var(--gold);
+  background: rgba(247, 195, 76, 0.12);
+  border-color: rgba(247, 195, 76, 0.5);
+}
+
 /* 表头 */
 .table-head {
   display: grid;

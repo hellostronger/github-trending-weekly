@@ -15,9 +15,16 @@ const fmt = (n) => Number(n).toLocaleString('en-US');
 /* —— 国际化 —— */
 const I18N = {
   zh: {
-    titlePre: '本周全球最受关注的 ',
-    titlePost: ' 个开源项目',
-    docTitle: '本周全球最受关注的开源项目 · GitHub Trending 周榜',
+    tabWeekly: '周榜',
+    tabDaily: '日榜',
+    title: (since) =>
+      since === 'daily'
+        ? { pre: '今日全球最受关注的 ', post: ' 个开源项目' }
+        : { pre: '本周全球最受关注的 ', post: ' 个开源项目' },
+    docTitle: (since) =>
+      since === 'daily'
+        ? '今日 GitHub 热门开源项目 · Trending 日榜'
+        : '本周全球最受关注的开源项目 · GitHub Trending 周榜',
     subtitle: (since, label) =>
       `GITHUB TRENDING ${since === 'daily' ? '日榜' : since === 'monthly' ? '月榜' : '周榜'} · ${label}`,
     intro: '自动监控 GitHub Trending 周榜：每天定时抓取全球最受关注的开源项目，记录 Star 增长并永久存档，可回看往期榜单、查看增长趋势。',
@@ -25,7 +32,9 @@ const I18N = {
     chipRepos: (n) => `📦 累计追踪 ${n} 个仓库`,
     chipSource: '⭐ 数据源 GitHub Trending',
     chipAuto: '🕙 每天自动更新',
-    hRank: '排名', hProject: '项目', hCompany: '所属公司', hTrend: '趋势', hWeekly: '本周新增关注', hTotal: '累计关注',
+    hRank: '排名', hProject: '项目', hCompany: '所属公司', hTrend: '趋势',
+    hWeekly: (since) => (since === 'daily' ? '今日新增关注' : '本周新增关注'),
+    hTotal: '累计关注',
     trends: '趋势追踪',
     trendsNote: (total, growing) =>
       growing > 0
@@ -46,16 +55,25 @@ const I18N = {
     toggle: 'EN',
   },
   en: {
-    titlePre: 'Top ',
-    titlePost: ' Trending Open Source Projects This Week',
-    docTitle: 'Top Trending Open Source Projects · GitHub Trending Weekly',
+    tabWeekly: 'Weekly',
+    tabDaily: 'Daily',
+    title: (since) =>
+      since === 'daily'
+        ? { pre: 'Top ', post: ' Trending Open Source Projects Today' }
+        : { pre: 'Top ', post: ' Trending Open Source Projects This Week' },
+    docTitle: (since) =>
+      since === 'daily'
+        ? 'Top Trending Open Source Projects Today · GitHub Trending'
+        : 'Top Trending Open Source Projects · GitHub Trending Weekly',
     subtitle: (since, label) => `GITHUB TRENDING ${String(since).toUpperCase()} · ${label}`,
     intro: 'An automated GitHub Trending monitor: fetches the most-starred open source projects worldwide every day, records their star growth and archives everything permanently — browse past rankings and growth trends.',
     chipDays: (d) => `📅 Running for ${d} day${d > 1 ? 's' : ''}`,
     chipRepos: (n) => `📦 Tracking ${n} repos`,
     chipSource: '⭐ Source: GitHub Trending',
     chipAuto: '🕙 Auto-updated daily',
-    hRank: 'Rank', hProject: 'Project', hCompany: 'Company', hTrend: 'Trend', hWeekly: 'Weekly Stars', hTotal: 'Total Stars',
+    hRank: 'Rank', hProject: 'Project', hCompany: 'Company', hTrend: 'Trend',
+    hWeekly: (since) => (since === 'daily' ? "Today's Stars" : 'Weekly Stars'),
+    hTotal: 'Total Stars',
     trends: 'Trend Tracking',
     trendsNote: (total, growing) =>
       growing > 0
@@ -108,10 +126,14 @@ const LANG_COLORS = {
 };
 const langColor = (l) => LANG_COLORS[l] || '#8fa0d8';
 
-/* trends.json：仓库 -> [{date, stars, weeklyStars}]；渲染榜单时用于画迷你曲线 */
+/* trends.json：仓库 -> [{date, since, stars, gained}]；渲染榜单时用于画迷你曲线 */
 let TRENDS = {};
 let HISTORY = null;
 const TITLE_BY_REPO = {};
+
+/* 当前查看的榜单（周榜/日榜），记忆在浏览器本地 */
+let CURRENT_SINCE = localStorage.getItem('gtw-chart') === 'daily' ? 'daily' : 'weekly';
+const LATEST_CACHE = {};
 
 function el(tag, className, text) {
   const node = document.createElement(tag);
@@ -169,13 +191,15 @@ function renderRanking(data, label) {
   }
 
   $subtitle.textContent = T.subtitle(data.since, label);
+  document.getElementById('table-head').children[4].textContent = T.hWeekly(data.since || CURRENT_SINCE);
   const $h1 = document.querySelector('.hero h1');
+  const tp = T.title(data.since || CURRENT_SINCE);
   $h1.replaceChildren(
-    document.createTextNode(T.titlePre),
+    document.createTextNode(tp.pre),
     el('span', 'num', String(repos.length)),
-    document.createTextNode(T.titlePost)
+    document.createTextNode(tp.post)
   );
-  document.title = T.docTitle;
+  document.title = T.docTitle(data.since || CURRENT_SINCE);
 
   for (const r of repos) {
     if (r.title) TITLE_BY_REPO[r.repo] = r.title;
@@ -225,13 +249,46 @@ async function loadJson(url) {
   return res.json();
 }
 
+const latestFile = (since) => (since === 'weekly' ? 'data/latest.json' : `data/latest-${since}.json`);
+
+async function loadLatest(since) {
+  if (!LATEST_CACHE[since]) LATEST_CACHE[since] = await loadJson(latestFile(since));
+  return LATEST_CACHE[since];
+}
+
 async function showLatest() {
   try {
-    const data = await loadJson('data/latest.json');
+    const data = await loadLatest(CURRENT_SINCE);
     renderRanking(data, data.generatedAt ? data.generatedAt.slice(0, 10) : '');
   } catch (err) {
     $ranking.replaceChildren(el('div', 'empty', T.loadFail(err.message)));
   }
+}
+
+/* —— 周榜 / 日榜切换 —— */
+function renderTabs() {
+  const $tabs = document.getElementById('chart-tabs');
+  $tabs.replaceChildren();
+  for (const s of ['weekly', 'daily']) {
+    const btn = el('button', 'chart-tab' + (s === CURRENT_SINCE ? ' active' : ''));
+    btn.type = 'button';
+    btn.textContent = s === 'weekly' ? T.tabWeekly : T.tabDaily;
+    btn.addEventListener('click', () => {
+      if (CURRENT_SINCE === s) return;
+      CURRENT_SINCE = s;
+      localStorage.setItem('gtw-chart', s);
+      renderTabs();
+      switchChart();
+    });
+    $tabs.append(btn);
+  }
+}
+
+async function switchChart() {
+  $ranking.replaceChildren(el('div', 'loading', T.loading));
+  await showLatest();
+  await renderTrendsSection();
+  renderHistory();
 }
 
 /* —— 趋势追踪卡片区 —— */
@@ -282,10 +339,24 @@ async function loadTrends() {
 /* 渲染趋势追踪卡片区（需在渲染榜单后调用，才能拿到中文标题） */
 async function renderTrendsSection() {
   const entries = Object.entries(TRENDS)
-    .map(([repo, pts]) => ({ repo, pts: [...pts].sort((a, b) => a.date.localeCompare(b.date)) }))
+    .map(([repo, allPts]) => {
+      // 只取当前榜单类型的数据点，同一天去重
+      const pts = allPts
+        .filter((p) => (p.since || 'weekly') === CURRENT_SINCE)
+        .sort((a, b) => a.date.localeCompare(b.date));
+      const dedup = [];
+      for (const p of pts) {
+        if (dedup.length === 0 || dedup[dedup.length - 1].date !== p.date) dedup.push(p);
+        else dedup[dedup.length - 1] = p;
+      }
+      return { repo, pts: dedup };
+    })
     .filter((e) => e.pts.length > 0)
     .sort((a, b) => b.pts.length - a.pts.length || b.pts.at(-1).stars - a.pts.at(-1).stars);
-  if (entries.length === 0) return;
+  if (entries.length === 0) {
+    $trendsSection.hidden = true;
+    return;
+  }
 
   $trendsSection.hidden = false;
   const growing = entries.filter((e) => e.pts.length >= 2).length;
@@ -294,25 +365,33 @@ async function renderTrendsSection() {
   for (const e of entries.slice(0, 8)) $trendsList.append(renderTrendCard(e.repo, e.pts));
 }
 
-async function initHistory() {
+async function loadHistory() {
   try {
     const history = await loadJson('data/history.json');
-    if (!Array.isArray(history) || history.length === 0) return;
-    HISTORY = history;
-    $historySection.hidden = false;
-    $historyList.replaceChildren();
-    for (const h of history) {
-      const li = document.createElement('li');
-      const btn = el('button');
-      btn.append(el('span', 'date', h.date));
-      const topTitle = LANG === 'zh' ? h.top1Title || h.top1 || '' : shortName(h.top1 || '');
-      btn.append(el('span', 't1', T.top1(topTitle)));
-      btn.addEventListener('click', () => showArchive(h.date));
-      li.append(btn);
-      $historyList.append(li);
-    }
+    if (Array.isArray(history) && history.length > 0) HISTORY = history;
   } catch {
     /* 没有历史归档时静默隐藏 */
+  }
+}
+
+function renderHistory() {
+  if (!Array.isArray(HISTORY) || HISTORY.length === 0) return;
+  const items = HISTORY.filter((h) => (h.since || 'weekly') === CURRENT_SINCE);
+  if (items.length === 0) {
+    $historySection.hidden = true;
+    return;
+  }
+  $historySection.hidden = false;
+  $historyList.replaceChildren();
+  for (const h of items) {
+    const li = document.createElement('li');
+    const btn = el('button');
+    btn.append(el('span', 'date', h.date));
+    const topTitle = LANG === 'zh' ? h.top1Title || h.top1 || '' : shortName(h.top1 || '');
+    btn.append(el('span', 't1', T.top1(topTitle)));
+    btn.addEventListener('click', () => showArchive(h.date, h.since || 'weekly'));
+    li.append(btn);
+    $historyList.append(li);
   }
 }
 
@@ -320,7 +399,7 @@ async function initHistory() {
 function renderHeroStats() {
   const $stats = document.getElementById('hero-stats');
   if (!$stats) return;
-  const days = Array.isArray(HISTORY) ? HISTORY.length : 0;
+  const days = Array.isArray(HISTORY) ? new Set(HISTORY.map((h) => h.date)).size : 0;
   const repos = Object.keys(TRENDS).length;
   $stats.replaceChildren(
     el('span', 'chip', T.chipDays(days || 1)),
@@ -330,10 +409,13 @@ function renderHeroStats() {
   );
 }
 
-async function showArchive(date) {
+const archiveUrl = (date, since) =>
+  since === 'daily' ? `data/archive/daily-${date}.json` : `data/archive/${date}.json`;
+
+async function showArchive(date, since) {
   $ranking.replaceChildren(el('div', 'loading', T.archiveLoading(date)));
   try {
-    const data = await loadJson(`data/archive/${date}.json`);
+    const data = await loadJson(archiveUrl(date, since || CURRENT_SINCE));
     renderRanking(data, date);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   } catch (err) {
@@ -346,7 +428,7 @@ function applyStaticTexts() {
   document.getElementById('intro').textContent = T.intro;
   document.getElementById('foot-hint').textContent = T.footHint;
   const head = document.getElementById('table-head');
-  const labels = [T.hRank, T.hProject, T.hCompany, T.hTrend, T.hWeekly, T.hTotal];
+  const labels = [T.hRank, T.hProject, T.hCompany, T.hTrend, T.hWeekly(CURRENT_SINCE), T.hTotal];
   [...head.children].forEach((span, i) => (span.textContent = labels[i]));
   document.getElementById('trends-title').textContent = T.trends;
   document.getElementById('history-title').textContent = T.history;
@@ -374,9 +456,12 @@ function applyStaticTexts() {
   }
 
   applyStaticTexts();
-  initHistory();
+  applyStaticTexts();
+  renderTabs();
+  loadHistory();
   await loadTrends();
   await showLatest();
   await renderTrendsSection();
+  renderHistory();
   renderHeroStats();
 })();
