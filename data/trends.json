@@ -2,64 +2,73 @@
   "meta/astryx": [
     {
       "date": "2026-11-15",
-      "stars": 28547,
-      "weeklyStars": 13660
+      "since": "weekly",
+      "stars": 28548,
+      "gained": 13660
     }
   ],
   "sherlock-project/sherlock": [
     {
       "date": "2026-11-15",
-      "stars": 112159,
-      "weeklyStars": 12401
+      "since": "weekly",
+      "stars": 112165,
+      "gained": 12401
     }
   ],
   "milind-soni/OpenMausBot": [
     {
       "date": "2026-11-15",
-      "stars": 23073,
-      "weeklyStars": 6413
+      "since": "weekly",
+      "stars": 23075,
+      "gained": 6413
     }
   ],
   "anthropics/skills": [
     {
       "date": "2026-11-15",
-      "stars": 195086,
-      "weeklyStars": 6220
+      "since": "weekly",
+      "stars": 195089,
+      "gained": 6220
     }
   ],
   "google/elephant-goldfish-model": [
     {
       "date": "2026-11-15",
-      "stars": 19472,
-      "weeklyStars": 5539
+      "since": "weekly",
+      "stars": 19478,
+      "gained": 5539
     }
   ],
   "vercel-labs/agent-browser": [
     {
       "date": "2026-11-15",
-      "stars": 51430,
-      "weeklyStars": 4601
+      "since": "weekly",
+      "stars": 51433,
+      "gained": 4601
     }
   ],
   "ZhuLinsen/daily_stock_analysis": [
     {
       "date": "2026-11-15",
+      "since": "weekly",
       "stars": 72394,
-      "weeklyStars": 4526
+      "gained": 4526
     }
   ],
   "addyosmani/agent-skills": [
     {
       "date": "2026-11-15",
-      "stars": 117772,
-      "weeklyStars": 3670
+      "since": "weekly",
+      "stars": 117775,
+      "gained": 3670
     }
   ],
   "google-deepmind/mujoco": [
     {
       "date": "2026-11-15",
-      "stars": 18039,
-      "weeklyStars": 1859
+      "since": "weekly",
+      "stars": 18040,
+      "gained": 1859
     }
   ],
   "anthropics/claude-quickstarts": [
@@ -72,8 +81,89 @@
   "we-promise/sure": [
     {
       "date": "2026-11-15",
-      "stars": 15559,
-      "weeklyStars": 4483
+      "since": "weekly",
+      "stars": 15560,
+      "gained": 4483
+    }
+  ],
+  "GoogleChrome/modern-web-guidance-src": [
+    {
+      "date": "2026-11-15",
+      "since": "daily",
+      "stars": 6746,
+      "gained": 1220
+    }
+  ],
+  "dream-num/univer": [
+    {
+      "date": "2026-11-15",
+      "since": "daily",
+      "stars": 25276,
+      "gained": 1041
+    }
+  ],
+  "backnotprop/plannotator": [
+    {
+      "date": "2026-11-15",
+      "since": "daily",
+      "stars": 11621,
+      "gained": 860
+    }
+  ],
+  "ChromeDevTools/chrome-devtools-mcp": [
+    {
+      "date": "2026-11-15",
+      "since": "daily",
+      "stars": 56653,
+      "gained": 718
+    }
+  ],
+  "tradermonty/claude-trading-skills": [
+    {
+      "date": "2026-11-15",
+      "since": "daily",
+      "stars": 5220,
+      "gained": 707
+    }
+  ],
+  "alibaba/open-code-review": [
+    {
+      "date": "2026-11-15",
+      "since": "daily",
+      "stars": 51760,
+      "gained": 688
+    }
+  ],
+  "Tencent/LoopForge": [
+    {
+      "date": "2026-11-15",
+      "since": "daily",
+      "stars": 1220,
+      "gained": 484
+    }
+  ],
+  "ag-ui-protocol/ag-ui": [
+    {
+      "date": "2026-11-15",
+      "since": "daily",
+      "stars": 17596,
+      "gained": 393
+    }
+  ],
+  "google-labs-code/stitch-skills": [
+    {
+      "date": "2026-11-15",
+      "since": "daily",
+      "stars": 9075,
+      "gained": 248
+    }
+  ],
+  "ggml-org/ggml": [
+    {
+      "date": "2026-11-15",
+      "since": "daily",
+      "stars": 15804,
+      "gained": 154
     }
   ]
 }

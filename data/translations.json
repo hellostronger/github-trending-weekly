@@ -38,5 +38,45 @@
   "google-deepmind/mujoco": {
     "title": "通用物理仿真引擎",
     "desc": "支持多关节接触动力学的通用物理模拟器"
+  },
+  "GoogleChrome/modern-web-guidance-src": {
+    "title": "现代Web最佳实践",
+    "desc": "为编码代理提供最新Web最佳实践指南"
+  },
+  "dream-num/univer": {
+    "title": "Univer AI办公SDK",
+    "desc": "可扩展开源核心，构建编辑计算协作的AI办公套件"
+  },
+  "backnotprop/plannotator": {
+    "title": "Agent协作工作台",
+    "desc": "一站式塑造、规划、审查代码并反馈给智能体"
+  },
+  "ChromeDevTools/chrome-devtools-mcp": {
+    "title": "编码代理DevTools",
+    "desc": "为编码代理提供Chrome开发者工具能力"
+  },
+  "tradermonty/claude-trading-skills": {
+    "title": "Claude交易技能库",
+    "desc": "面向投资者的市场分析、选股及策略开发技能集"
+  },
+  "alibaba/open-code-review": {
+    "title": "阿里代码审查工具",
+    "desc": "混合架构代码审查，流水线加LLM精准行级评论"
+  },
+  "Tencent/LoopForge": {
+    "title": "编码代理交付工作流",
+    "desc": "自托管编排多代理，支持脚本与人工审批门禁"
+  },
+  "ag-ui-protocol/ag-ui": {
+    "title": "Agent用户交互协议",
+    "desc": "标准化协议将智能体引入前端应用交互"
+  },
+  "google-labs-code/stitch-skills": {
+    "title": "Stitch Agent技能库",
+    "desc": "遵循开放标准，兼容主流编码代理的技能集合"
+  },
+  "ggml-org/ggml": {
+    "title": "GGML张量库",
+    "desc": "面向机器学习的高性能张量计算库"
   }
 }
