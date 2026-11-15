@@ -102,9 +102,11 @@ async function ghApi(pathname) {
   return res.json();
 }
 
-/** 从 trending 页面按 <article> 块解析出仓库路径与 "N stars this week/day" */
+/** 从 trending 页面按 <article> 块解析出仓库路径与 star 计数
+ *  文案因榜单而异：周榜 "stars this week"、日榜 "stars today"（没有 this），
+ *  所以用可选的 (?:this\s+)? 兼容两种 */
 function parseTrending(html, sinceWord) {
-  const re = new RegExp(`([\\d,]+)\\s+stars this ${sinceWord}`, 'i');
+  const re = new RegExp(`([\\d,]+)\\s+stars\\s+(?:this\\s+)?${sinceWord}`, 'i');
   const repos = [];
   for (const block of html.split('<article').slice(1)) {
     // 块内第一个非黑名单的 /owner/repo 链接才是仓库标题链接
