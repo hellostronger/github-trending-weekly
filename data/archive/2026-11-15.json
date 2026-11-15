@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-15T13:40:17.636Z",
+  "generatedAt": "2026-11-15T13:48:48.417Z",
   "since": "weekly",
   "topN": 10,
   "repos": [
@@ -8,120 +8,130 @@
       "repo": "meta/astryx",
       "title": "AstryX 开源设计系统",
       "company": "Meta",
+      "companyEn": "Meta",
       "weeklyStars": 13660,
-      "stars": 28516,
+      "stars": 28521,
       "description": "An open source design system that's fully customizable and agent ready",
+      "descriptionZh": null,
       "language": "TypeScript",
-      "url": "https://github.com/meta/astryx",
-      "companyEn": "Meta"
+      "url": "https://github.com/meta/astryx"
     },
     {
       "rank": 2,
       "repo": "sherlock-project/sherlock",
       "title": "社交账号搜索",
       "company": "Sherlock Project",
+      "companyEn": "Sherlock Project",
       "weeklyStars": 12401,
-      "stars": 112134,
+      "stars": 112135,
       "description": "Hunt down social media accounts by username across social networks",
+      "descriptionZh": null,
       "language": "Python",
-      "url": "https://github.com/sherlock-project/sherlock",
-      "companyEn": "Sherlock Project"
+      "url": "https://github.com/sherlock-project/sherlock"
     },
     {
       "rank": 3,
       "repo": "milind-soni/OpenMausBot",
       "title": "AI 机器人小队",
       "company": "个人开发者",
+      "companyEn": "Individual",
       "weeklyStars": 6413,
-      "stars": 23053,
+      "stars": 23055,
       "description": "Open-source Grok Bot alternative with a virtual machine that bots can use",
+      "descriptionZh": null,
       "language": "TypeScript",
-      "url": "https://github.com/milind-soni/OpenMausBot",
-      "companyEn": "Individual"
+      "url": "https://github.com/milind-soni/OpenMausBot"
     },
     {
       "rank": 4,
       "repo": "anthropics/skills",
       "title": "Claude 技能包",
       "company": "Anthropic",
+      "companyEn": "Anthropic",
       "weeklyStars": 6220,
-      "stars": 195063,
+      "stars": 195070,
       "description": "Public repository for Agent Skills",
+      "descriptionZh": null,
       "language": "Python",
-      "url": "https://github.com/anthropics/skills",
-      "companyEn": "Anthropic"
+      "url": "https://github.com/anthropics/skills"
     },
     {
       "rank": 5,
       "repo": "google/elephant-goldfish-model",
       "title": "方案评审助手",
       "company": "谷歌",
+      "companyEn": "Google",
       "weeklyStars": 5539,
-      "stars": 19454,
+      "stars": 19456,
       "description": "Open-source plugin for designing and reviewing software with agents",
+      "descriptionZh": null,
       "language": "Python",
-      "url": "https://github.com/google/elephant-goldfish-model",
-      "companyEn": "Google"
+      "url": "https://github.com/google/elephant-goldfish-model"
     },
     {
       "rank": 6,
       "repo": "vercel-labs/agent-browser",
       "title": "AI 浏览器自动化",
       "company": "Vercel",
+      "companyEn": "Vercel",
       "weeklyStars": 4601,
-      "stars": 51412,
+      "stars": 51415,
       "description": "Browser automation CLI for AI agents",
+      "descriptionZh": null,
       "language": "Rust",
-      "url": "https://github.com/vercel-labs/agent-browser",
-      "companyEn": "Vercel"
+      "url": "https://github.com/vercel-labs/agent-browser"
     },
     {
       "rank": 7,
       "repo": "ZhuLinsen/daily_stock_analysis",
       "title": "AI 股票分析",
       "company": "个人开发者",
+      "companyEn": "Individual",
       "weeklyStars": 4526,
-      "stars": 72385,
+      "stars": 72389,
       "description": "LLM 驱动的多市场股票智能分析系统：多源行情、实时新闻、决策看板与自动推送，支持零成本定时运行。  LLM-powered multi-market stock analysis system with multi-source market data, real-time news, decision dashboard, automated notifications, and cost-free scheduled runs.",
+      "descriptionZh": null,
       "language": "Python",
-      "url": "https://github.com/ZhuLinsen/daily_stock_analysis",
-      "companyEn": "Individual"
+      "url": "https://github.com/ZhuLinsen/daily_stock_analysis"
     },
     {
       "rank": 8,
       "repo": "we-promise/sure",
       "title": "sure",
       "company": "we-promise",
+      "companyEn": "we-promise",
       "weeklyStars": 4483,
-      "stars": 15551,
+      "stars": 15552,
       "description": "The personal finance app for everyone (by everyone)",
+      "descriptionZh": null,
       "language": "Ruby",
-      "url": "https://github.com/we-promise/sure",
-      "companyEn": "we-promise"
+      "url": "https://github.com/we-promise/sure"
     },
     {
       "rank": 9,
       "repo": "addyosmani/agent-skills",
       "title": "工程智能体技能",
       "company": "个人开发者",
+      "companyEn": "Individual",
       "weeklyStars": 3670,
-      "stars": 117761,
+      "stars": 117763,
       "description": "Production-grade engineering skills for AI coding agents.",
+      "descriptionZh": null,
       "language": "JavaScript",
-      "url": "https://github.com/addyosmani/agent-skills",
-      "companyEn": "Individual"
+      "url": "https://github.com/addyosmani/agent-skills"
     },
     {
       "rank": 10,
       "repo": "google-deepmind/mujoco",
       "title": "MuJoCo 物理仿真",
       "company": "谷歌 DeepMind",
+      "companyEn": "Google DeepMind",
       "weeklyStars": 1859,
-      "stars": 18035,
+      "stars": 18037,
       "description": "Multi-Joint dynamics with Contact. A general purpose physics simulator.",
+      "descriptionZh": null,
       "language": "C++",
-      "url": "https://github.com/google-deepmind/mujoco",
-      "companyEn": "Google DeepMind"
+      "url": "https://github.com/google-deepmind/mujoco"
     }
   ]
 }

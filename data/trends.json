@@ -2,63 +2,63 @@
   "meta/astryx": [
     {
       "date": "2026-11-15",
-      "stars": 28516,
+      "stars": 28521,
       "weeklyStars": 13660
     }
   ],
   "sherlock-project/sherlock": [
     {
       "date": "2026-11-15",
-      "stars": 112134,
+      "stars": 112135,
       "weeklyStars": 12401
     }
   ],
   "milind-soni/OpenMausBot": [
     {
       "date": "2026-11-15",
-      "stars": 23053,
+      "stars": 23055,
       "weeklyStars": 6413
     }
   ],
   "anthropics/skills": [
     {
       "date": "2026-11-15",
-      "stars": 195063,
+      "stars": 195070,
       "weeklyStars": 6220
     }
   ],
   "google/elephant-goldfish-model": [
     {
       "date": "2026-11-15",
-      "stars": 19454,
+      "stars": 19456,
       "weeklyStars": 5539
     }
   ],
   "vercel-labs/agent-browser": [
     {
       "date": "2026-11-15",
-      "stars": 51412,
+      "stars": 51415,
       "weeklyStars": 4601
     }
   ],
   "ZhuLinsen/daily_stock_analysis": [
     {
       "date": "2026-11-15",
-      "stars": 72385,
+      "stars": 72389,
       "weeklyStars": 4526
     }
   ],
   "addyosmani/agent-skills": [
     {
       "date": "2026-11-15",
-      "stars": 117761,
+      "stars": 117763,
       "weeklyStars": 3670
     }
   ],
   "google-deepmind/mujoco": [
     {
       "date": "2026-11-15",
-      "stars": 18035,
+      "stars": 18037,
       "weeklyStars": 1859
     }
   ],
@@ -72,7 +72,7 @@
   "we-promise/sure": [
     {
       "date": "2026-11-15",
-      "stars": 15551,
+      "stars": 15552,
       "weeklyStars": 4483
     }
   ]
