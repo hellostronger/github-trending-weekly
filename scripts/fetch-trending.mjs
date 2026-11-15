@@ -160,7 +160,7 @@ async function llmTranslate(items) {
       messages: [{ role: 'user', content: prompt }],
       temperature: 0.2,
     }),
-    signal: AbortSignal.timeout(240_000),
+    signal: AbortSignal.timeout(300_000),
   });
   if (!res.ok) throw new Error(`LLM HTTP ${res.status}`);
   const data = await res.json();
@@ -376,9 +376,18 @@ async function main() {
   const now = new Date();
   const date = now.toISOString().slice(0, 10);
   const historyEntries = [];
+  const failures = [];
 
   for (const since of CHARTS) {
-    const payload = await buildChart(since, now.toISOString());
+    let payload;
+    try {
+      payload = await buildChart(since, now.toISOString());
+    } catch (err) {
+      // 单个榜单失败不拖垮整个运行：其他榜单照常产出，LLM 缓存也能落盘提交
+      console.warn(`[${since}] 本期抓取失败，跳过：${err.message}`);
+      failures.push(since);
+      continue;
+    }
     const top = payload.repos;
 
     fs.writeFileSync(path.join(DATA_DIR, latestName(since)), JSON.stringify(payload, null, 2) + '\n');
@@ -396,6 +405,10 @@ async function main() {
         `  ${String(r.rank).padStart(2)}. ${r.repo.padEnd(45)} +${r.weeklyStars.toLocaleString('en-US')} (${r.stars.toLocaleString('en-US')}) ${r.company}`
       );
     }
+  }
+
+  if (failures.length === CHARTS.length) {
+    throw new Error(`所有榜单抓取均失败：${failures.join(', ')}`);
   }
 
   // 归档索引：按 日期+榜单类型 去重，倒序排列
