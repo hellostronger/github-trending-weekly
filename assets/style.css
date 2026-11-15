@@ -68,21 +68,19 @@ body {
 /* 表头 */
 .table-head {
   display: grid;
-  grid-template-columns: 52px minmax(0, 1fr) 150px 130px 110px;
+  grid-template-columns: 52px minmax(0, 1fr) 150px 110px 120px 100px;
   gap: 12px;
   padding: 0 26px 10px;
   font-size: 12.5px;
   color: var(--muted);
   letter-spacing: 1px;
 }
-.table-head span:nth-child(3),
-.table-head span:nth-child(4),
-.table-head span:nth-child(5) { text-align: center; }
+.table-head span:nth-child(n + 3) { text-align: center; }
 
 /* 排行卡片 */
 .row {
   display: grid;
-  grid-template-columns: 52px minmax(0, 1fr) 150px 130px 110px;
+  grid-template-columns: 52px minmax(0, 1fr) 150px 110px 120px 100px;
   gap: 12px;
   align-items: center;
   margin-bottom: 12px;
@@ -95,6 +93,11 @@ body {
 .row:hover {
   transform: translateY(-2px);
   border-color: rgba(160, 185, 255, 0.5);
+}
+.row.flash { animation: flash 1.4s ease; }
+@keyframes flash {
+  0%   { box-shadow: 0 0 0 3px rgba(247, 195, 76, 0.55); border-color: var(--gold); }
+  100% { box-shadow: none; }
 }
 
 .rank {
@@ -114,14 +117,39 @@ body {
   text-decoration: none;
 }
 .proj .name:hover { text-decoration: underline; }
-.proj .path {
-  display: block;
+.pathline {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   margin-top: 3px;
+  min-width: 0;
+}
+.proj .path {
+  flex: 1;
+  min-width: 0;
   font-size: 12.5px;
   color: #a9b8f0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+.lang {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  font-size: 11px;
+  color: #b9c6ff;
+  white-space: nowrap;
+}
+.lang i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  display: inline-block;
 }
 .proj .desc {
   display: block;
@@ -132,6 +160,16 @@ body {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+.trend { text-align: center; }
+.spark { width: 104px; height: 30px; }
+.spark path {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 1.5;
+  opacity: 0.9;
+}
+.spark circle { fill: var(--gold); }
 
 .company {
   text-align: center;
@@ -162,6 +200,62 @@ body {
   color: var(--muted);
   font-size: 14px;
 }
+
+/* 趋势追踪 */
+.trends { margin-top: 52px; }
+.trends h2 {
+  font-size: 15px;
+  letter-spacing: 2px;
+  color: var(--muted);
+  font-weight: 700;
+  margin: 0 0 6px;
+}
+.trends-note {
+  margin: 0 0 14px;
+  font-size: 12px;
+  color: #6f7fb4;
+}
+.trends-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 10px;
+}
+.trend-card {
+  all: unset;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(47, 76, 220, 0.18);
+  border: 1px solid rgba(122, 150, 255, 0.18);
+}
+.trend-card:hover { background: rgba(47, 76, 220, 0.34); }
+.trend-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+.trend-info .t1 {
+  color: #fff;
+  font-weight: 700;
+  font-size: 13.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.trend-info .r {
+  color: #7f92cc;
+  font-size: 11.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.trend-info .meta { color: #b9c6ff; font-size: 11.5px; }
+.trend-info .meta b { color: var(--gold); font-weight: 700; }
 
 /* 往期榜单 */
 .history { margin-top: 52px; }
@@ -211,6 +305,7 @@ body {
   .rank { grid-area: rank; font-size: 18px; }
   .proj { grid-area: proj; }
   .company { display: none; }
+  .trend { display: none; }
   .delta { grid-area: delta; font-size: 16px; }
   .stars { grid-area: stars; font-size: 13px; }
 }

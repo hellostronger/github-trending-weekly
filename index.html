@@ -17,11 +17,17 @@
     </header>
 
     <div class="table-head" role="presentation">
-      <span>排名</span><span>项目</span><span>所属公司</span><span>本周新增关注</span><span>累计关注</span>
+      <span>排名</span><span>项目</span><span>所属公司</span><span>趋势</span><span>本周新增关注</span><span>累计关注</span>
     </div>
 
     <section id="ranking" aria-live="polite">
       <div class="loading">正在加载最新榜单…</div>
+    </section>
+
+    <section class="trends" id="trends-section" hidden>
+      <h2>趋势追踪</h2>
+      <p class="trends-note" id="trends-note"></p>
+      <div class="trends-grid" id="trends-list"></div>
     </section>
 
     <section class="history" id="history-section" hidden>

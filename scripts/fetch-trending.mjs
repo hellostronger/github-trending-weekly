@@ -4,6 +4,7 @@
  *   data/latest.json            当前一周 Top 10（页面主展示）
  *   data/archive/<date>.json    按天归档（历史可回看）
  *   data/history.json           归档索引（页面「往期榜单」用）
+ *   data/trends.json            趋势时间线：每个上榜仓库每天的 star 快照
  *
  * 数据来源：
  *   1. https://github.com/trending?since=weekly  —— 每个仓库自带 "N stars this week"（本周新增）
@@ -121,6 +122,56 @@ function companyOf(ownerType, login) {
   return COMPANY_MAP[login.toLowerCase()] ?? login;
 }
 
+const TREND_RETENTION_DAYS = 180;
+
+/**
+ * 趋势追踪：维护 仓库 -> [{date, stars, weeklyStars}] 时间线。
+ * 当天快照按日期 upsert（同天重复运行只保留最新）；
+ * 并从历史归档回填，保证脚本升级后趋势数据也能补齐。
+ */
+function updateTrends(date, todayRepos) {
+  const file = path.join(DATA_DIR, 'trends.json');
+  const trends = loadJson(file, {});
+
+  // 从归档回填缺失的日期
+  try {
+    for (const f of fs.readdirSync(ARCHIVE_DIR)) {
+      const m = f.match(/^(\d{4}-\d{2}-\d{2})\.json$/);
+      if (!m) continue;
+      const snap = loadJson(path.join(ARCHIVE_DIR, f), null);
+      if (!snap || !Array.isArray(snap.repos)) continue;
+      for (const r of snap.repos) {
+        trends[r.repo] ??= [];
+        if (!trends[r.repo].some((p) => p.date === m[1])) {
+          trends[r.repo].push({ date: m[1], stars: r.stars, weeklyStars: r.weeklyStars });
+        }
+      }
+    }
+  } catch {
+    /* 归档缺失不影响主流程 */
+  }
+
+  // 追加/更新当天数据点
+  for (const r of todayRepos) {
+    trends[r.repo] ??= [];
+    const point = { date, stars: r.stars, weeklyStars: r.weeklyStars };
+    const i = trends[r.repo].findIndex((p) => p.date === date);
+    if (i >= 0) trends[r.repo][i] = point;
+    else trends[r.repo].push(point);
+  }
+
+  // 排序 + 只保留最近 N 天，避免无限膨胀
+  const cutoff = new Date(Date.now() - TREND_RETENTION_DAYS * 86_400_000).toISOString().slice(0, 10);
+  for (const repo of Object.keys(trends)) {
+    trends[repo] = trends[repo]
+      .sort((a, b) => a.date.localeCompare(b.date))
+      .filter((p) => p.date >= cutoff);
+    if (trends[repo].length === 0) delete trends[repo];
+  }
+
+  fs.writeFileSync(file, JSON.stringify(trends, null, 2) + '\n');
+}
+
 async function main() {
   fs.mkdirSync(ARCHIVE_DIR, { recursive: true });
 
@@ -186,6 +237,8 @@ async function main() {
     path.join(DATA_DIR, 'history.json'),
     JSON.stringify([entry, ...others].sort((a, b) => b.date.localeCompare(a.date)), null, 2) + '\n'
   );
+
+  updateTrends(date, top);
 
   console.log(`\n本周 Top ${top.length}（${date}）:`);
   for (const r of top) {

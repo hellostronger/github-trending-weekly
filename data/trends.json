@@ -1,0 +1,72 @@
+{
+  "meta/astryx": [
+    {
+      "date": "2026-11-15",
+      "stars": 28496,
+      "weeklyStars": 13660
+    }
+  ],
+  "sherlock-project/sherlock": [
+    {
+      "date": "2026-11-15",
+      "stars": 112113,
+      "weeklyStars": 12401
+    }
+  ],
+  "milind-soni/OpenMausBot": [
+    {
+      "date": "2026-11-15",
+      "stars": 23044,
+      "weeklyStars": 6413
+    }
+  ],
+  "anthropics/skills": [
+    {
+      "date": "2026-11-15",
+      "stars": 195034,
+      "weeklyStars": 6220
+    }
+  ],
+  "google/elephant-goldfish-model": [
+    {
+      "date": "2026-11-15",
+      "stars": 19442,
+      "weeklyStars": 5539
+    }
+  ],
+  "vercel-labs/agent-browser": [
+    {
+      "date": "2026-11-15",
+      "stars": 51404,
+      "weeklyStars": 4601
+    }
+  ],
+  "ZhuLinsen/daily_stock_analysis": [
+    {
+      "date": "2026-11-15",
+      "stars": 72382,
+      "weeklyStars": 4526
+    }
+  ],
+  "addyosmani/agent-skills": [
+    {
+      "date": "2026-11-15",
+      "stars": 117749,
+      "weeklyStars": 3670
+    }
+  ],
+  "google-deepmind/mujoco": [
+    {
+      "date": "2026-11-15",
+      "stars": 18033,
+      "weeklyStars": 1859
+    }
+  ],
+  "anthropics/claude-quickstarts": [
+    {
+      "date": "2026-11-15",
+      "stars": 21029,
+      "weeklyStars": 1794
+    }
+  ]
+}
