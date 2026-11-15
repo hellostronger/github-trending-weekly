@@ -3,7 +3,7 @@
     {
       "date": "2026-11-15",
       "since": "weekly",
-      "stars": 28548,
+      "stars": 28647,
       "gained": 13660
     }
   ],
@@ -11,7 +11,7 @@
     {
       "date": "2026-11-15",
       "since": "weekly",
-      "stars": 112165,
+      "stars": 112281,
       "gained": 12401
     }
   ],
@@ -19,7 +19,7 @@
     {
       "date": "2026-11-15",
       "since": "weekly",
-      "stars": 23075,
+      "stars": 23160,
       "gained": 6413
     }
   ],
@@ -27,7 +27,7 @@
     {
       "date": "2026-11-15",
       "since": "weekly",
-      "stars": 195089,
+      "stars": 195191,
       "gained": 6220
     }
   ],
@@ -35,7 +35,7 @@
     {
       "date": "2026-11-15",
       "since": "weekly",
-      "stars": 19478,
+      "stars": 19551,
       "gained": 5539
     }
   ],
@@ -43,7 +43,7 @@
     {
       "date": "2026-11-15",
       "since": "weekly",
-      "stars": 51433,
+      "stars": 51491,
       "gained": 4601
     }
   ],
@@ -51,7 +51,7 @@
     {
       "date": "2026-11-15",
       "since": "weekly",
-      "stars": 72394,
+      "stars": 72438,
       "gained": 4526
     }
   ],
@@ -59,7 +59,7 @@
     {
       "date": "2026-11-15",
       "since": "weekly",
-      "stars": 117775,
+      "stars": 117824,
       "gained": 3670
     }
   ],
@@ -67,7 +67,7 @@
     {
       "date": "2026-11-15",
       "since": "weekly",
-      "stars": 18040,
+      "stars": 18047,
       "gained": 1859
     }
   ],
@@ -82,7 +82,7 @@
     {
       "date": "2026-11-15",
       "since": "weekly",
-      "stars": 15560,
+      "stars": 15598,
       "gained": 4483
     }
   ],
@@ -90,7 +90,7 @@
     {
       "date": "2026-11-15",
       "since": "daily",
-      "stars": 6746,
+      "stars": 6879,
       "gained": 1220
     }
   ],
@@ -98,7 +98,7 @@
     {
       "date": "2026-11-15",
       "since": "daily",
-      "stars": 25276,
+      "stars": 25375,
       "gained": 1041
     }
   ],
@@ -106,7 +106,7 @@
     {
       "date": "2026-11-15",
       "since": "daily",
-      "stars": 11621,
+      "stars": 11680,
       "gained": 860
     }
   ],
@@ -114,7 +114,7 @@
     {
       "date": "2026-11-15",
       "since": "daily",
-      "stars": 56653,
+      "stars": 56747,
       "gained": 718
     }
   ],
@@ -122,7 +122,7 @@
     {
       "date": "2026-11-15",
       "since": "daily",
-      "stars": 5220,
+      "stars": 5301,
       "gained": 707
     }
   ],
@@ -130,7 +130,7 @@
     {
       "date": "2026-11-15",
       "since": "daily",
-      "stars": 51760,
+      "stars": 51833,
       "gained": 688
     }
   ],
@@ -138,7 +138,7 @@
     {
       "date": "2026-11-15",
       "since": "daily",
-      "stars": 1220,
+      "stars": 1305,
       "gained": 484
     }
   ],
@@ -146,7 +146,7 @@
     {
       "date": "2026-11-15",
       "since": "daily",
-      "stars": 17596,
+      "stars": 17664,
       "gained": 393
     }
   ],
@@ -154,7 +154,7 @@
     {
       "date": "2026-11-15",
       "since": "daily",
-      "stars": 9075,
+      "stars": 9130,
       "gained": 248
     }
   ],
@@ -164,6 +164,14 @@
       "since": "daily",
       "stars": 15804,
       "gained": 154
+    }
+  ],
+  "elementalsouls/Claude-BugHunter": [
+    {
+      "date": "2026-11-15",
+      "since": "daily",
+      "stars": 6063,
+      "gained": 221
     }
   ]
 }
