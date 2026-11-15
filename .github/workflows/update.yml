@@ -11,7 +11,6 @@ permissions:
   contents: write # 提交 data/*.json
   pages: write # 发布 GitHub Pages
   id-token: write # Pages 部署需要
-  administration: write # 首次运行时自动开启 Pages 站点
 
 concurrency:
   group: trending-pages
