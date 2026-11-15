@@ -272,12 +272,15 @@ function updateTrends(date, since, todayRepos) {
   fs.writeFileSync(file, JSON.stringify(trends, null, 2) + '\n');
 }
 
+/** since -> trending 页面上的计数文案：日榜是 "stars today"（不是 "this day"） */
+const SINCE_WORD = { daily: 'today', weekly: 'week', monthly: 'month' };
+
 /** 抓取并构建一个榜单（since = weekly | daily | monthly），返回完整 payload */
 async function buildChart(since, nowIso) {
   const url = `https://github.com/trending?since=${since}`;
   console.log(`抓取 ${url} ...`);
   const html = await fetchText(url);
-  const candidates = parseTrending(html, since.replace(/ly$/, ''));
+  const candidates = parseTrending(html, SINCE_WORD[since] || since.replace(/ly$/, ''));
   if (candidates.length === 0) {
     throw new Error(`Trending(${since}) 页面解析结果为空（页面结构可能变化，请检查 parseTrending）`);
   }
