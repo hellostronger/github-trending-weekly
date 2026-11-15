@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-15T13:07:42.062Z",
+  "generatedAt": "2026-11-15T13:11:02.059Z",
   "since": "weekly",
   "topN": 10,
   "repos": [
@@ -9,7 +9,7 @@
       "title": "AstryX 开源设计系统",
       "company": "Meta",
       "weeklyStars": 13660,
-      "stars": 28493,
+      "stars": 28496,
       "description": "An open source design system that's fully customizable and agent ready",
       "language": "TypeScript",
       "url": "https://github.com/meta/astryx"
@@ -20,7 +20,7 @@
       "title": "社交账号搜索",
       "company": "Sherlock Project",
       "weeklyStars": 12401,
-      "stars": 112112,
+      "stars": 112113,
       "description": "Hunt down social media accounts by username across social networks",
       "language": "Python",
       "url": "https://github.com/sherlock-project/sherlock"
@@ -42,7 +42,7 @@
       "title": "Claude 技能包",
       "company": "Anthropic",
       "weeklyStars": 6220,
-      "stars": 195033,
+      "stars": 195034,
       "description": "Public repository for Agent Skills",
       "language": "Python",
       "url": "https://github.com/anthropics/skills"
@@ -53,7 +53,7 @@
       "title": "方案评审助手",
       "company": "谷歌",
       "weeklyStars": 5539,
-      "stars": 19439,
+      "stars": 19442,
       "description": "Open-source plugin for designing and reviewing software with agents",
       "language": "Python",
       "url": "https://github.com/google/elephant-goldfish-model"
@@ -64,7 +64,7 @@
       "title": "AI 浏览器自动化",
       "company": "Vercel",
       "weeklyStars": 4601,
-      "stars": 51402,
+      "stars": 51404,
       "description": "Browser automation CLI for AI agents",
       "language": "Rust",
       "url": "https://github.com/vercel-labs/agent-browser"
@@ -86,7 +86,7 @@
       "title": "工程智能体技能",
       "company": "个人开发者",
       "weeklyStars": 3670,
-      "stars": 117748,
+      "stars": 117749,
       "description": "Production-grade engineering skills for AI coding agents.",
       "language": "JavaScript",
       "url": "https://github.com/addyosmani/agent-skills"
