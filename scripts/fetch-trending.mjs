@@ -149,20 +149,39 @@ async function llmTranslate(items) {
       messages: [{ role: 'user', content: prompt }],
       temperature: 0.2,
     }),
-    signal: AbortSignal.timeout(90_000),
+    signal: AbortSignal.timeout(180_000),
   });
   if (!res.ok) throw new Error(`LLM HTTP ${res.status}`);
   const data = await res.json();
   const text = data.choices?.[0]?.message?.content || '';
-  const m = text.match(/\[[\s\S]*\]/); // 容忍模型用 ```json 包裹输出
-  if (!m) throw new Error('LLM 输出中没有 JSON 数组');
+  const arr = extractJsonArray(text);
   const out = {};
-  for (const it of JSON.parse(m[0])) {
+  for (const it of arr) {
     if (it && it.repo && it.title) {
       out[it.repo] = { title: String(it.title).slice(0, 30), desc: String(it.desc || '').slice(0, 100) };
     }
   }
   return out;
+}
+
+/** 从模型输出中稳健地提取 JSON 数组：优先 ```json 代码块，其次首尾括号匹配 */
+function extractJsonArray(text) {
+  const fenced = text.match(/```(?:json)?\s*([\s\S]*?)```/);
+  const candidates = [];
+  if (fenced) candidates.push(fenced[1]);
+  const first = text.indexOf('[');
+  const last = text.lastIndexOf(']');
+  if (first >= 0 && last > first) candidates.push(text.slice(first, last + 1));
+  candidates.push(text);
+  for (const c of candidates) {
+    try {
+      const parsed = JSON.parse(c);
+      if (Array.isArray(parsed)) return parsed;
+    } catch {
+      /* 尝试下一个候选 */
+    }
+  }
+  throw new Error('LLM 输出中没有可解析的 JSON 数组');
 }
 
 const TREND_RETENTION_DAYS = 180;
@@ -215,8 +234,48 @@ function updateTrends(date, todayRepos) {
   fs.writeFileSync(file, JSON.stringify(trends, null, 2) + '\n');
 }
 
+/** 为一组仓库条目补齐中文翻译（缓存驱动 + 可选 LLM），原地更新 title / descriptionZh */
+async function applyTranslations(entries) {
+  const trans = loadJson(path.join(DATA_DIR, 'translations.json'), {});
+  // 只要有手工标题就仍然要翻译描述，所以只按缓存判断是否需要请求 LLM
+  const missing = entries.filter((r) => !trans[r.repo]);
+  if (missing.length > 0 && LLM.key) {
+    try {
+      const result = await llmTranslate(
+        missing.map((r) => ({ repo: r.repo, name: r.repo.split('/')[1], description: r.description || '' }))
+      );
+      Object.assign(trans, result);
+      fs.writeFileSync(
+        path.join(DATA_DIR, 'translations.json'),
+        JSON.stringify(trans, null, 2) + '\n'
+      );
+      console.log(`LLM 翻译完成：${Object.keys(result).length}/${missing.length}`);
+    } catch (err) {
+      console.warn(`LLM 翻译失败（忽略，不影响主流程）：${err.message}`);
+    }
+  }
+  for (const r of entries) {
+    const tr = trans[r.repo];
+    if (!tr) continue;
+    if (!TITLES[r.repo]) r.title = tr.title; // 手工映射优先
+    r.descriptionZh = tr.desc || null;
+  }
+}
+
 async function main() {
   fs.mkdirSync(ARCHIVE_DIR, { recursive: true });
+
+  // 离线模式：只为当前 latest.json 里的仓库补翻译，不抓取（本地网络不佳时使用）
+  if (process.argv.includes('--translate-only')) {
+    const latest = loadJson(path.join(DATA_DIR, 'latest.json'), null);
+    if (!latest || !Array.isArray(latest.repos)) {
+      throw new Error('data/latest.json 不存在，请先跑一次完整抓取');
+    }
+    await applyTranslations(latest.repos);
+    fs.writeFileSync(path.join(DATA_DIR, 'latest.json'), JSON.stringify(latest, null, 2) + '\n');
+    console.log('离线翻译完成，已更新 data/latest.json');
+    return;
+  }
 
   console.log(`抓取 ${TRENDING_URL} ...`);
   const html = await fetchText(TRENDING_URL);
@@ -250,36 +309,20 @@ async function main() {
   const topRaw = repos.slice(0, TOP_N);
 
   // 中文名/中文描述：titles.json 手工映射优先，其次 LLM 自动翻译（缓存进 translations.json），否则回退英文名
-  const trans = loadJson(path.join(DATA_DIR, 'translations.json'), {});
-  const missing = topRaw.filter((r) => !TITLES[r.repo] && !trans[r.repo]);
-  if (missing.length > 0 && LLM.key) {
-    try {
-      const result = await llmTranslate(
-        missing.map((r) => ({ repo: r.repo, name: r.repo.split('/')[1], description: r.description || '' }))
-      );
-      Object.assign(trans, result);
-      fs.writeFileSync(
-        path.join(DATA_DIR, 'translations.json'),
-        JSON.stringify(trans, null, 2) + '\n'
-      );
-      console.log(`LLM 翻译完成：${Object.keys(result).length}/${missing.length}`);
-    } catch (err) {
-      console.warn(`LLM 翻译失败（忽略，不影响主流程）：${err.message}`);
-    }
-  }
+  await applyTranslations(topRaw);
 
   const top = topRaw.map((r, i) => {
     const c = companyOf(r.ownerType, r.owner);
     return {
       rank: i + 1,
       repo: r.repo,
-      title: TITLES[r.repo] || trans[r.repo]?.title || r.repo.split('/')[1],
+      title: TITLES[r.repo] || r.title || r.repo.split('/')[1],
       company: c.zh,
       companyEn: c.en,
       weeklyStars: r.weeklyStars,
       stars: r.stars,
       description: r.description,
-      descriptionZh: trans[r.repo]?.desc || null,
+      descriptionZh: r.descriptionZh || null,
       language: r.language,
       url: r.url,
     };

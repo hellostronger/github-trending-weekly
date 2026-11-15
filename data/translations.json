@@ -1,0 +1,42 @@
+{
+  "we-promise/sure": {
+    "title": "全民理财应用",
+    "desc": "开源协作打造的个人理财应用，支持多账户、预算与报表。"
+  },
+  "meta/astryx": {
+    "title": "可定制设计系统",
+    "desc": "开源、可完全定制且面向智能体的设计系统"
+  },
+  "sherlock-project/sherlock": {
+    "title": "用户名跨平台搜索",
+    "desc": "通过用户名在多个社交网络查找账号"
+  },
+  "milind-soni/OpenMausBot": {
+    "title": "开源Grok机器人",
+    "desc": "提供虚拟机环境的开源 Grok 替代机器人"
+  },
+  "anthropics/skills": {
+    "title": "智能体技能库",
+    "desc": "面向 AI 代理的公开技能仓库"
+  },
+  "google/elephant-goldfish-model": {
+    "title": "代理软件设计插件",
+    "desc": "帮助智能体设计与审查软件的开源插件"
+  },
+  "vercel-labs/agent-browser": {
+    "title": "AI 代理浏览器 CLI",
+    "desc": "为 AI 代理提供浏览器自动化命令行工具"
+  },
+  "ZhuLinsen/daily_stock_analysis": {
+    "title": "多市场股票智能分析",
+    "desc": "大模型驱动多源行情、新闻、看板与自动推送"
+  },
+  "addyosmani/agent-skills": {
+    "title": "生产级 AI 编码技能",
+    "desc": "面向 AI 编程代理的工程级技能集合"
+  },
+  "google-deepmind/mujoco": {
+    "title": "通用物理仿真引擎",
+    "desc": "支持多关节接触动力学的通用物理模拟器"
+  }
+}
