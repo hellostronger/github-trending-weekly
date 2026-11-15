@@ -41,6 +41,7 @@ const langColor = (l) => LANG_COLORS[l] || '#8fa0d8';
 
 /* trends.json：仓库 -> [{date, stars, weeklyStars}]；渲染榜单时用于画迷你曲线 */
 let TRENDS = {};
+let HISTORY = null;
 const TITLE_BY_REPO = {};
 
 function el(tag, className, text) {
@@ -212,6 +213,7 @@ async function initHistory() {
   try {
     const history = await loadJson('data/history.json');
     if (!Array.isArray(history) || history.length === 0) return;
+    HISTORY = history;
     $historySection.hidden = false;
     $historyList.replaceChildren();
     for (const h of history) {
@@ -226,6 +228,26 @@ async function initHistory() {
   } catch {
     /* 没有历史归档时静默隐藏 */
   }
+}
+
+/* 标题下的动态状态徽章：让访客一眼了解页面在做什么、数据有多新 */
+function renderHeroStats() {
+  const $stats = document.getElementById('hero-stats');
+  if (!$stats) return;
+  const days = Array.isArray(HISTORY) ? HISTORY.length : 0;
+  const repos = Object.keys(TRENDS).length;
+  const chip = (parts) => {
+    const c = el('span', 'chip');
+    for (const p of parts) c.append(p);
+    return c;
+  };
+  const chips = [
+    chip([el('span', null, '📅 已运行 '), el('b', null, `${days || 1} 天`)]),
+    chip([el('span', null, '📦 累计追踪 '), el('b', null, `${repos} 个仓库`)]),
+    chip([el('span', null, '⭐ 数据源 GitHub Trending')]),
+    chip([el('span', null, '🕙 每天自动更新')]),
+  ];
+  $stats.replaceChildren(...chips);
 }
 
 async function showArchive(date) {
@@ -257,4 +279,5 @@ async function showArchive(date) {
   await loadTrends();
   await showLatest();
   await renderTrendsSection();
+  renderHeroStats();
 })();

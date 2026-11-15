@@ -64,6 +64,33 @@ body {
   letter-spacing: 4px;
   color: var(--muted);
 }
+.hero .intro {
+  max-width: 620px;
+  margin: 16px auto 0;
+  font-size: 13.5px;
+  line-height: 1.8;
+  color: #9fafff;
+}
+.hero .stats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 14px;
+}
+.hero .chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(122, 150, 255, 0.22);
+  font-size: 12px;
+  color: #b9c6ff;
+  white-space: nowrap;
+}
+.hero .chip b { color: var(--gold); font-weight: 700; }
 
 /* 表头 */
 .table-head {
