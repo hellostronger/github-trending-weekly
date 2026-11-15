@@ -48,7 +48,8 @@ jobs:
             echo "数据无变化，跳过提交"
           else
             git commit -m "chore: 更新 Trending 数据 [skip ci]"
-            git push
+            # 防并发竞争：push 被拒时变基（冲突以最新抓取的数据为准）后重推
+            git push || { git pull --rebase -X theirs origin main && git push; }
           fi
 
       - name: 配置 Pages
