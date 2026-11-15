@@ -14,7 +14,8 @@
       "description": "An open source design system that's fully customizable and agent ready",
       "descriptionZh": "开源、可完全定制且面向智能体的设计系统",
       "language": "TypeScript",
-      "url": "https://github.com/meta/astryx"
+      "url": "https://github.com/meta/astryx",
+      "useCaseZh": null
     },
     {
       "rank": 2,
@@ -27,7 +28,8 @@
       "description": "Hunt down social media accounts by username across social networks",
       "descriptionZh": "通过用户名在多个社交网络查找账号",
       "language": "Python",
-      "url": "https://github.com/sherlock-project/sherlock"
+      "url": "https://github.com/sherlock-project/sherlock",
+      "useCaseZh": null
     },
     {
       "rank": 3,
@@ -40,7 +42,8 @@
       "description": "Open-source Grok Bot alternative with a virtual machine that bots can use",
       "descriptionZh": "提供虚拟机环境的开源 Grok 替代机器人",
       "language": "TypeScript",
-      "url": "https://github.com/milind-soni/OpenMausBot"
+      "url": "https://github.com/milind-soni/OpenMausBot",
+      "useCaseZh": null
     },
     {
       "rank": 4,
@@ -53,7 +56,8 @@
       "description": "Public repository for Agent Skills",
       "descriptionZh": "面向 AI 代理的公开技能仓库",
       "language": "Python",
-      "url": "https://github.com/anthropics/skills"
+      "url": "https://github.com/anthropics/skills",
+      "useCaseZh": null
     },
     {
       "rank": 5,
@@ -66,7 +70,8 @@
       "description": "Open-source plugin for designing and reviewing software with agents",
       "descriptionZh": "帮助智能体设计与审查软件的开源插件",
       "language": "Python",
-      "url": "https://github.com/google/elephant-goldfish-model"
+      "url": "https://github.com/google/elephant-goldfish-model",
+      "useCaseZh": null
     },
     {
       "rank": 6,
@@ -79,7 +84,8 @@
       "description": "Browser automation CLI for AI agents",
       "descriptionZh": "为 AI 代理提供浏览器自动化命令行工具",
       "language": "Rust",
-      "url": "https://github.com/vercel-labs/agent-browser"
+      "url": "https://github.com/vercel-labs/agent-browser",
+      "useCaseZh": null
     },
     {
       "rank": 7,
@@ -92,7 +98,8 @@
       "description": "LLM 驱动的多市场股票智能分析系统：多源行情、实时新闻、决策看板与自动推送，支持零成本定时运行。  LLM-powered multi-market stock analysis system with multi-source market data, real-time news, decision dashboard, automated notifications, and cost-free scheduled runs.",
       "descriptionZh": "大模型驱动多源行情、新闻、看板与自动推送",
       "language": "Python",
-      "url": "https://github.com/ZhuLinsen/daily_stock_analysis"
+      "url": "https://github.com/ZhuLinsen/daily_stock_analysis",
+      "useCaseZh": null
     },
     {
       "rank": 8,
@@ -105,7 +112,8 @@
       "description": "The personal finance app for everyone (by everyone)",
       "descriptionZh": "开源协作打造的个人理财应用，支持多账户、预算与报表。",
       "language": "Ruby",
-      "url": "https://github.com/we-promise/sure"
+      "url": "https://github.com/we-promise/sure",
+      "useCaseZh": null
     },
     {
       "rank": 9,
@@ -118,7 +126,8 @@
       "description": "Production-grade engineering skills for AI coding agents.",
       "descriptionZh": "面向 AI 编程代理的工程级技能集合",
       "language": "JavaScript",
-      "url": "https://github.com/addyosmani/agent-skills"
+      "url": "https://github.com/addyosmani/agent-skills",
+      "useCaseZh": null
     },
     {
       "rank": 10,
@@ -131,7 +140,8 @@
       "description": "Multi-Joint dynamics with Contact. A general purpose physics simulator.",
       "descriptionZh": "支持多关节接触动力学的通用物理模拟器",
       "language": "C++",
-      "url": "https://github.com/google-deepmind/mujoco"
+      "url": "https://github.com/google-deepmind/mujoco",
+      "useCaseZh": null
     }
   ]
 }

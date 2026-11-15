@@ -224,6 +224,8 @@ function renderRanking(data, label) {
     proj.append(pathline);
     const desc = displayDesc(r);
     if (desc) proj.append(el('span', 'desc', desc));
+    const useCase = LANG === 'zh' ? r.useCaseZh : null;
+    if (useCase) proj.append(el('span', 'usecase', `🎯 适用：${useCase}`));
     row.append(proj);
 
     row.append(el('span', 'company', displayCompany(r)));

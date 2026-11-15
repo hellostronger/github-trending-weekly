@@ -140,14 +140,18 @@ const LLM = {
 async function llmTranslate(items) {
   if (!LLM.key || items.length === 0) return {};
   const prompt = [
-    '你是开源项目资讯编辑。为下列 GitHub 仓库各生成一个中文短标题和一句中文描述。',
-    '要求：title 不超过 12 个字、概括项目用途；desc 不超过 40 个字、一句话概括。',
+    '你是开源项目资讯编辑。为下列 GitHub 仓库各生成：中文短标题、一句中文描述、典型应用场景。',
+    '要求：',
+    '- title：不超过 12 个字，概括项目用途',
+    '- desc：不超过 40 个字，一句话概括项目是什么',
+    '- useCase：不超过 45 字，写清楚典型使用者与适合的应用场景，要具体不空泛，例如「适合需要本地化部署知识库问答的团队」',
     '只输出 JSON 数组，不要任何多余文字，格式：',
-    '[{"repo":"owner/name","title":"...","desc":"..."}]',
+    '[{"repo":"owner/name","title":"...","desc":"...","useCase":"..."}]',
     '',
     '仓库列表：',
     JSON.stringify(items.map(({ repo, name, description }) => ({ repo, name, description }))),
   ].join('\n');
+  const t0 = Date.now();
   const res = await fetch(`${LLM.baseUrl}/chat/completions`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${LLM.key}` },
@@ -156,16 +160,21 @@ async function llmTranslate(items) {
       messages: [{ role: 'user', content: prompt }],
       temperature: 0.2,
     }),
-    signal: AbortSignal.timeout(180_000),
+    signal: AbortSignal.timeout(240_000),
   });
   if (!res.ok) throw new Error(`LLM HTTP ${res.status}`);
   const data = await res.json();
+  console.log(`  [LLM] 本批耗时约 ${Math.round((Date.now() - t0) / 1000)}s`);
   const text = data.choices?.[0]?.message?.content || '';
   const arr = extractJsonArray(text);
   const out = {};
   for (const it of arr) {
     if (it && it.repo && it.title) {
-      out[it.repo] = { title: String(it.title).slice(0, 30), desc: String(it.desc || '').slice(0, 100) };
+      out[it.repo] = {
+        title: String(it.title).slice(0, 30),
+        desc: String(it.desc || '').slice(0, 100),
+        useCase: String(it.useCase || '').slice(0, 120),
+      };
     }
   }
   return out;
@@ -191,31 +200,43 @@ function extractJsonArray(text) {
   throw new Error('LLM 输出中没有可解析的 JSON 数组');
 }
 
-/** 为一组仓库条目补齐中文翻译（缓存驱动 + 可选 LLM），原地更新 title / descriptionZh */
+/** 为一组仓库条目补齐中文翻译（缓存驱动 + 可选 LLM），原地更新 title / descriptionZh / useCaseZh */
+const LLM_CHUNK_SIZE = 2; // 桥接接口响应慢，分小批请求并逐批落盘缓存，中断可续跑
+
 async function applyTranslations(entries) {
   const trans = loadJson(path.join(DATA_DIR, 'translations.json'), {});
-  // 只要有手工标题就仍然要翻译描述，所以只按缓存判断是否需要请求 LLM
-  const missing = entries.filter((r) => !trans[r.repo]);
+  // 缓存缺失，或缓存还没有 useCase 字段（旧缓存迁移）时需要请求 LLM
+  const missing = entries.filter((r) => !trans[r.repo] || !trans[r.repo].useCase);
   if (missing.length > 0 && LLM.key) {
+    let done = 0;
     try {
-      const result = await llmTranslate(
-        missing.map((r) => ({ repo: r.repo, name: r.repo.split('/')[1], description: r.description || '' }))
-      );
-      Object.assign(trans, result);
-      fs.writeFileSync(
-        path.join(DATA_DIR, 'translations.json'),
-        JSON.stringify(trans, null, 2) + '\n'
-      );
-      console.log(`LLM 翻译完成：${Object.keys(result).length}/${missing.length}`);
+      for (let i = 0; i < missing.length; i += LLM_CHUNK_SIZE) {
+        const chunk = missing.slice(i, i + LLM_CHUNK_SIZE);
+        const result = await llmTranslate(
+          chunk.map((r) => ({ repo: r.repo, name: r.repo.split('/')[1], description: r.description || '' }))
+        );
+        // 合并：已有缓存的仓库只补 useCase，保持 title/desc 稳定不跳动
+        for (const [repo, val] of Object.entries(result)) {
+          trans[repo] = trans[repo] ? { ...trans[repo], useCase: val.useCase } : val;
+        }
+        done += Object.keys(result).length;
+        // 逐批落盘：即使后面的批次失败，前面的成果也不会丢
+        fs.writeFileSync(
+          path.join(DATA_DIR, 'translations.json'),
+          JSON.stringify(trans, null, 2) + '\n'
+        );
+      }
+      console.log(`LLM 翻译完成：${done}/${missing.length}`);
     } catch (err) {
-      console.warn(`LLM 翻译失败（忽略，不影响主流程）：${err.message}`);
+      console.warn(`LLM 翻译部分失败（已完成 ${done}/${missing.length}，下次运行续跑）：${err.message}`);
     }
   }
   for (const r of entries) {
     const tr = trans[r.repo];
     if (!tr) continue;
-    if (!TITLES[r.repo]) r.title = tr.title; // 手工映射优先
+    if (!TITLES[r.repo] && tr.title) r.title = tr.title; // 手工映射优先
     r.descriptionZh = tr.desc || null;
+    r.useCaseZh = tr.useCase || null;
   }
 }
 
@@ -326,6 +347,7 @@ async function buildChart(since, nowIso) {
       stars: r.stars,
       description: r.description,
       descriptionZh: r.descriptionZh || null,
+      useCaseZh: r.useCaseZh || null,
       language: r.language,
       url: r.url,
     };
