@@ -1,5 +1,19 @@
 [
   {
+    "date": "2026-11-16",
+    "since": "weekly",
+    "top1": "meta/astryx",
+    "top1Title": "AstryX 开源设计系统",
+    "top1Stars": 28653
+  },
+  {
+    "date": "2026-11-16",
+    "since": "daily",
+    "top1": "GoogleChrome/modern-web-guidance-src",
+    "top1Title": "现代Web最佳实践",
+    "top1Stars": 6882
+  },
+  {
     "date": "2026-11-15",
     "since": "weekly",
     "top1": "meta/astryx",

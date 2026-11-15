@@ -5,6 +5,12 @@
       "since": "weekly",
       "stars": 28647,
       "gained": 13660
+    },
+    {
+      "date": "2026-11-16",
+      "since": "weekly",
+      "stars": 28653,
+      "gained": 13660
     }
   ],
   "sherlock-project/sherlock": [
@@ -12,6 +18,12 @@
       "date": "2026-11-15",
       "since": "weekly",
       "stars": 112281,
+      "gained": 12401
+    },
+    {
+      "date": "2026-11-16",
+      "since": "weekly",
+      "stars": 112287,
       "gained": 12401
     }
   ],
@@ -21,6 +33,12 @@
       "since": "weekly",
       "stars": 23160,
       "gained": 6413
+    },
+    {
+      "date": "2026-11-16",
+      "since": "weekly",
+      "stars": 23166,
+      "gained": 6413
     }
   ],
   "anthropics/skills": [
@@ -28,6 +46,12 @@
       "date": "2026-11-15",
       "since": "weekly",
       "stars": 195191,
+      "gained": 6220
+    },
+    {
+      "date": "2026-11-16",
+      "since": "weekly",
+      "stars": 195197,
       "gained": 6220
     }
   ],
@@ -37,6 +61,12 @@
       "since": "weekly",
       "stars": 19551,
       "gained": 5539
+    },
+    {
+      "date": "2026-11-16",
+      "since": "weekly",
+      "stars": 19555,
+      "gained": 5539
     }
   ],
   "vercel-labs/agent-browser": [
@@ -44,6 +74,12 @@
       "date": "2026-11-15",
       "since": "weekly",
       "stars": 51491,
+      "gained": 4601
+    },
+    {
+      "date": "2026-11-16",
+      "since": "weekly",
+      "stars": 51492,
       "gained": 4601
     }
   ],
@@ -53,6 +89,12 @@
       "since": "weekly",
       "stars": 72438,
       "gained": 4526
+    },
+    {
+      "date": "2026-11-16",
+      "since": "weekly",
+      "stars": 72439,
+      "gained": 4526
     }
   ],
   "addyosmani/agent-skills": [
@@ -61,11 +103,23 @@
       "since": "weekly",
       "stars": 117824,
       "gained": 3670
+    },
+    {
+      "date": "2026-11-16",
+      "since": "weekly",
+      "stars": 117824,
+      "gained": 3670
     }
   ],
   "google-deepmind/mujoco": [
     {
       "date": "2026-11-15",
+      "since": "weekly",
+      "stars": 18047,
+      "gained": 1859
+    },
+    {
+      "date": "2026-11-16",
       "since": "weekly",
       "stars": 18047,
       "gained": 1859
@@ -84,6 +138,12 @@
       "since": "weekly",
       "stars": 15598,
       "gained": 4483
+    },
+    {
+      "date": "2026-11-16",
+      "since": "weekly",
+      "stars": 15601,
+      "gained": 4483
     }
   ],
   "GoogleChrome/modern-web-guidance-src": [
@@ -91,6 +151,12 @@
       "date": "2026-11-15",
       "since": "daily",
       "stars": 6879,
+      "gained": 1220
+    },
+    {
+      "date": "2026-11-16",
+      "since": "daily",
+      "stars": 6882,
       "gained": 1220
     }
   ],
@@ -100,6 +166,12 @@
       "since": "daily",
       "stars": 25375,
       "gained": 1041
+    },
+    {
+      "date": "2026-11-16",
+      "since": "daily",
+      "stars": 25380,
+      "gained": 1041
     }
   ],
   "backnotprop/plannotator": [
@@ -107,6 +179,12 @@
       "date": "2026-11-15",
       "since": "daily",
       "stars": 11680,
+      "gained": 860
+    },
+    {
+      "date": "2026-11-16",
+      "since": "daily",
+      "stars": 11682,
       "gained": 860
     }
   ],
@@ -116,6 +194,12 @@
       "since": "daily",
       "stars": 56747,
       "gained": 718
+    },
+    {
+      "date": "2026-11-16",
+      "since": "daily",
+      "stars": 56751,
+      "gained": 718
     }
   ],
   "tradermonty/claude-trading-skills": [
@@ -123,6 +207,12 @@
       "date": "2026-11-15",
       "since": "daily",
       "stars": 5301,
+      "gained": 707
+    },
+    {
+      "date": "2026-11-16",
+      "since": "daily",
+      "stars": 5308,
       "gained": 707
     }
   ],
@@ -132,6 +222,12 @@
       "since": "daily",
       "stars": 51833,
       "gained": 688
+    },
+    {
+      "date": "2026-11-16",
+      "since": "daily",
+      "stars": 51838,
+      "gained": 688
     }
   ],
   "Tencent/LoopForge": [
@@ -139,6 +235,12 @@
       "date": "2026-11-15",
       "since": "daily",
       "stars": 1305,
+      "gained": 484
+    },
+    {
+      "date": "2026-11-16",
+      "since": "daily",
+      "stars": 1307,
       "gained": 484
     }
   ],
@@ -148,6 +250,12 @@
       "since": "daily",
       "stars": 17664,
       "gained": 393
+    },
+    {
+      "date": "2026-11-16",
+      "since": "daily",
+      "stars": 17666,
+      "gained": 393
     }
   ],
   "google-labs-code/stitch-skills": [
@@ -155,6 +263,12 @@
       "date": "2026-11-15",
       "since": "daily",
       "stars": 9130,
+      "gained": 248
+    },
+    {
+      "date": "2026-11-16",
+      "since": "daily",
+      "stars": 9133,
       "gained": 248
     }
   ],
@@ -171,6 +285,12 @@
       "date": "2026-11-15",
       "since": "daily",
       "stars": 6063,
+      "gained": 221
+    },
+    {
+      "date": "2026-11-16",
+      "since": "daily",
+      "stars": 6068,
       "gained": 221
     }
   ]
