@@ -54,6 +54,26 @@ npx serve .
 # 浏览器打开 http://localhost:8000
 ```
 
+## 国际化
+
+页面右上角可切换 **中文 / EN**，偏好保存在浏览器本地；固定文案（表头、标题、简介、按钮等）全部跟随语言切换。
+
+项目动态内容的数据字段是双语的：
+
+| 字段 | 说明 |
+| --- | --- |
+| `title` | 中文标题：`data/titles.json` 手工映射 > LLM 自动翻译 > 回退英文名 |
+| `descriptionZh` | 中文描述：LLM 自动翻译生成，无则回退英文原文 |
+| `company` / `companyEn` | 所属公司中英文 |
+
+**开启自动翻译**（可选）：在仓库 **Settings → Secrets and variables → Actions** 添加：
+
+- `LLM_API_KEY`（必填）：任意 OpenAI 兼容接口的密钥
+- `LLM_BASE_URL`（可选）：默认 `https://open.bigmodel.cn/api/paas/v4`（智谱）
+- `LLM_MODEL`（可选）：默认 `glm-4-flash`（智谱免费模型）
+
+配置后每次运行自动为榜单上的新仓库生成中文标题和描述，结果缓存在 `data/translations.json`（已翻译过的不会重复调用）。不配置也能正常运行，只是描述保持英文原文。
+
 ## 自定义
 
 | 想改什么 | 改哪里 |
@@ -71,6 +91,7 @@ npx serve .
 - `data/history.json` —— 归档索引
 - `data/trends.json` —— 趋势时间线：`仓库 -> [{date, stars, weeklyStars}]`，每天 upsert 一个数据点，
   保留最近 180 天；页面用它渲染榜单行的迷你趋势曲线和「趋势追踪」卡片区（按上榜天数排序）
+- `data/translations.json` —— LLM 自动翻译缓存（`仓库 -> {title, desc}`），配置了 `LLM_API_KEY` 才会生成
 
 ## 常见问题
 

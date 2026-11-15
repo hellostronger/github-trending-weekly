@@ -26,23 +26,23 @@ const TOP_N = Number(process.env.TOP_N || 10);
 const SINCE = process.env.TRENDING_SINCE || 'weekly';
 const TRENDING_URL = `https://github.com/trending?since=${SINCE}`;
 
-/** org(小写) -> 展示名；没匹配上的 Organization 显示 login，个人账号显示「个人开发者」 */
+/** org(小写) -> 中英文展示名；没匹配上的 Organization 显示 login，个人账号显示「个人开发者/Individual」 */
 const COMPANY_MAP = {
-  meta: 'Meta',
-  google: '谷歌',
-  'google-deepmind': '谷歌 DeepMind',
-  'google-gemini': '谷歌',
-  anthropics: 'Anthropic',
-  anthropic: 'Anthropic',
-  vercel: 'Vercel',
-  'vercel-labs': 'Vercel',
-  openai: 'OpenAI',
-  microsoft: '微软',
-  huggingface: 'Hugging Face',
-  'xai-org': 'xAI',
-  'deepseek-ai': 'DeepSeek',
-  'sherlock-project': 'Sherlock Project',
-  QwenLM: '阿里通义',
+  meta: { zh: 'Meta', en: 'Meta' },
+  google: { zh: '谷歌', en: 'Google' },
+  'google-deepmind': { zh: '谷歌 DeepMind', en: 'Google DeepMind' },
+  'google-gemini': { zh: '谷歌', en: 'Google' },
+  anthropics: { zh: 'Anthropic', en: 'Anthropic' },
+  anthropic: { zh: 'Anthropic', en: 'Anthropic' },
+  vercel: { zh: 'Vercel', en: 'Vercel' },
+  'vercel-labs': { zh: 'Vercel', en: 'Vercel' },
+  openai: { zh: 'OpenAI', en: 'OpenAI' },
+  microsoft: { zh: '微软', en: 'Microsoft' },
+  huggingface: { zh: 'Hugging Face', en: 'Hugging Face' },
+  'xai-org': { zh: 'xAI', en: 'xAI' },
+  'deepseek-ai': { zh: 'DeepSeek', en: 'DeepSeek' },
+  'sherlock-project': { zh: 'Sherlock Project', en: 'Sherlock Project' },
+  QwenLM: { zh: '阿里通义', en: 'Alibaba Qwen' },
 };
 
 /** 仓库中文名人工映射表：data/titles.json，没有的仓库回退到仓库名 */
@@ -118,8 +118,51 @@ function parseTrending(html, sinceWord) {
 }
 
 function companyOf(ownerType, login) {
-  if (ownerType !== 'Organization') return '个人开发者';
-  return COMPANY_MAP[login.toLowerCase()] ?? login;
+  if (ownerType !== 'Organization') return { zh: '个人开发者', en: 'Individual' };
+  return COMPANY_MAP[login.toLowerCase()] ?? { zh: login, en: login };
+}
+
+/** 可选：LLM 自动翻译中文标题/描述（OpenAI 兼容接口）。配置 LLM_API_KEY 后生效。
+ *  默认指向智谱开放平台 + glm-4-flash（免费模型），可用 LLM_BASE_URL / LLM_MODEL 覆盖。 */
+const LLM = {
+  key: process.env.LLM_API_KEY || '',
+  baseUrl: (process.env.LLM_BASE_URL || 'https://open.bigmodel.cn/api/paas/v4').replace(/\/+$/, ''),
+  model: process.env.LLM_MODEL || 'glm-4-flash',
+};
+
+async function llmTranslate(items) {
+  if (!LLM.key || items.length === 0) return {};
+  const prompt = [
+    '你是开源项目资讯编辑。为下列 GitHub 仓库各生成一个中文短标题和一句中文描述。',
+    '要求：title 不超过 12 个字、概括项目用途；desc 不超过 40 个字、一句话概括。',
+    '只输出 JSON 数组，不要任何多余文字，格式：',
+    '[{"repo":"owner/name","title":"...","desc":"..."}]',
+    '',
+    '仓库列表：',
+    JSON.stringify(items.map(({ repo, name, description }) => ({ repo, name, description }))),
+  ].join('\n');
+  const res = await fetch(`${LLM.baseUrl}/chat/completions`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${LLM.key}` },
+    body: JSON.stringify({
+      model: LLM.model,
+      messages: [{ role: 'user', content: prompt }],
+      temperature: 0.2,
+    }),
+    signal: AbortSignal.timeout(90_000),
+  });
+  if (!res.ok) throw new Error(`LLM HTTP ${res.status}`);
+  const data = await res.json();
+  const text = data.choices?.[0]?.message?.content || '';
+  const m = text.match(/\[[\s\S]*\]/); // 容忍模型用 ```json 包裹输出
+  if (!m) throw new Error('LLM 输出中没有 JSON 数组');
+  const out = {};
+  for (const it of JSON.parse(m[0])) {
+    if (it && it.repo && it.title) {
+      out[it.repo] = { title: String(it.title).slice(0, 30), desc: String(it.desc || '').slice(0, 100) };
+    }
+  }
+  return out;
 }
 
 const TREND_RETENTION_DAYS = 180;
@@ -204,17 +247,43 @@ async function main() {
   }
 
   repos.sort((a, b) => b.weeklyStars - a.weeklyStars);
-  const top = repos.slice(0, TOP_N).map((r, i) => ({
-    rank: i + 1,
-    repo: r.repo,
-    title: TITLES[r.repo] || r.repo.split('/')[1],
-    company: companyOf(r.ownerType, r.owner),
-    weeklyStars: r.weeklyStars,
-    stars: r.stars,
-    description: r.description,
-    language: r.language,
-    url: r.url,
-  }));
+  const topRaw = repos.slice(0, TOP_N);
+
+  // 中文名/中文描述：titles.json 手工映射优先，其次 LLM 自动翻译（缓存进 translations.json），否则回退英文名
+  const trans = loadJson(path.join(DATA_DIR, 'translations.json'), {});
+  const missing = topRaw.filter((r) => !TITLES[r.repo] && !trans[r.repo]);
+  if (missing.length > 0 && LLM.key) {
+    try {
+      const result = await llmTranslate(
+        missing.map((r) => ({ repo: r.repo, name: r.repo.split('/')[1], description: r.description || '' }))
+      );
+      Object.assign(trans, result);
+      fs.writeFileSync(
+        path.join(DATA_DIR, 'translations.json'),
+        JSON.stringify(trans, null, 2) + '\n'
+      );
+      console.log(`LLM 翻译完成：${Object.keys(result).length}/${missing.length}`);
+    } catch (err) {
+      console.warn(`LLM 翻译失败（忽略，不影响主流程）：${err.message}`);
+    }
+  }
+
+  const top = topRaw.map((r, i) => {
+    const c = companyOf(r.ownerType, r.owner);
+    return {
+      rank: i + 1,
+      repo: r.repo,
+      title: TITLES[r.repo] || trans[r.repo]?.title || r.repo.split('/')[1],
+      company: c.zh,
+      companyEn: c.en,
+      weeklyStars: r.weeklyStars,
+      stars: r.stars,
+      description: r.description,
+      descriptionZh: trans[r.repo]?.desc || null,
+      language: r.language,
+      url: r.url,
+    };
+  });
   if (top.length === 0) throw new Error('没有可用数据');
 
   const now = new Date();

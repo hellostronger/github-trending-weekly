@@ -11,14 +11,15 @@
 <body>
   <div id="stars" aria-hidden="true"></div>
   <main class="page">
+    <button id="lang-toggle" class="lang-toggle" type="button" aria-label="Switch language"></button>
     <header class="hero">
       <h1>本周全球最受关注的 <span class="num" id="top-count">10</span> 个开源项目</h1>
       <p class="sub" id="subtitle">GITHUB TRENDING 周榜</p>
-      <p class="intro">自动监控 GitHub Trending 周榜：每天定时抓取全球最受关注的开源项目，记录 Star 增长并永久存档，可回看往期榜单、查看增长趋势。</p>
+      <p class="intro" id="intro">自动监控 GitHub Trending 周榜：每天定时抓取全球最受关注的开源项目，记录 Star 增长并永久存档，可回看往期榜单、查看增长趋势。</p>
       <div class="stats" id="hero-stats"></div>
     </header>
 
-    <div class="table-head" role="presentation">
+    <div class="table-head" id="table-head" role="presentation">
       <span>排名</span><span>项目</span><span>所属公司</span><span>趋势</span><span>本周新增关注</span><span>累计关注</span>
     </div>
 
@@ -27,19 +28,19 @@
     </section>
 
     <section class="trends" id="trends-section" hidden>
-      <h2>趋势追踪</h2>
+      <h2 id="trends-title">趋势追踪</h2>
       <p class="trends-note" id="trends-note"></p>
       <div class="trends-grid" id="trends-list"></div>
     </section>
 
     <section class="history" id="history-section" hidden>
-      <h2>往期榜单</h2>
+      <h2 id="history-title">往期榜单</h2>
       <ul id="history-list"></ul>
     </section>
 
     <footer class="foot">
       <p id="updated-at">数据来自 GitHub Trending · 定时抓取自动更新</p>
-      <p class="hint">点击往期条目可回看历史榜单 · 数据与页面由 GitHub Actions 自动生成</p>
+      <p class="hint" id="foot-hint">点击往期条目可回看历史榜单 · 数据与页面由 GitHub Actions 自动生成</p>
     </footer>
   </main>
   <script src="assets/app.js"></script>
