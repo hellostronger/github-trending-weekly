@@ -1,0 +1,63 @@
+name: 抓取 Trending 数据并发布页面
+
+on:
+  schedule:
+    - cron: '0 2 * * *' # 每天 UTC 02:00 = 北京时间 10:00
+  workflow_dispatch: # 支持手动触发
+  push:
+    branches: [main]
+
+permissions:
+  contents: write # 提交 data/*.json
+  pages: write # 发布 GitHub Pages
+  id-token: write # Pages 部署需要
+
+concurrency:
+  group: trending-pages
+  cancel-in-progress: false
+
+jobs:
+  fetch-and-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 安装 Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 抓取 Trending 数据
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/fetch-trending.mjs
+
+      - name: 提交数据变更
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data
+          if git diff --cached --quiet; then
+            echo "数据无变化，跳过提交"
+          else
+            git commit -m "chore: 更新 Trending 数据 [skip ci]"
+            git push
+          fi
+
+      - name: 配置 Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - name: 上传页面产物
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+
+      - name: 发布
+        id: deployment
+        uses: actions/deploy-pages@v4

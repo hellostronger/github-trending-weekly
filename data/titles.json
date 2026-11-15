@@ -1,0 +1,13 @@
+{
+  "sherlock-project/sherlock": "社交账号搜索",
+  "anthropics/skills": "Claude 技能包",
+  "anthropics/claude-quickstarts": "Claude 快速入门示例",
+  "google/elephant-goldfish-model": "方案评审助手",
+  "vercel-labs/agent-browser": "AI 浏览器自动化",
+  "addyosmani/agent-skills": "工程智能体技能",
+  "google-deepmind/mujoco": "MuJoCo 物理仿真",
+  "backnotprop/plannotator": "智能体规划协作",
+  "meta/astryx": "AstryX 开源设计系统",
+  "milind-soni/OpenMausBot": "AI 机器人小队",
+  "ZhuLinsen/daily_stock_analysis": "AI 股票分析"
+}
