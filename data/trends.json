@@ -2,28 +2,28 @@
   "meta/astryx": [
     {
       "date": "2026-11-15",
-      "stars": 28540,
+      "stars": 28547,
       "weeklyStars": 13660
     }
   ],
   "sherlock-project/sherlock": [
     {
       "date": "2026-11-15",
-      "stars": 112151,
+      "stars": 112159,
       "weeklyStars": 12401
     }
   ],
   "milind-soni/OpenMausBot": [
     {
       "date": "2026-11-15",
-      "stars": 23071,
+      "stars": 23073,
       "weeklyStars": 6413
     }
   ],
   "anthropics/skills": [
     {
       "date": "2026-11-15",
-      "stars": 195082,
+      "stars": 195086,
       "weeklyStars": 6220
     }
   ],
@@ -37,7 +37,7 @@
   "vercel-labs/agent-browser": [
     {
       "date": "2026-11-15",
-      "stars": 51426,
+      "stars": 51430,
       "weeklyStars": 4601
     }
   ],
@@ -58,7 +58,7 @@
   "google-deepmind/mujoco": [
     {
       "date": "2026-11-15",
-      "stars": 18038,
+      "stars": 18039,
       "weeklyStars": 1859
     }
   ],
