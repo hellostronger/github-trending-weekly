@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-15T13:28:48.113Z",
+  "generatedAt": "2026-11-15T13:40:17.636Z",
   "since": "weekly",
   "topN": 10,
   "repos": [
@@ -9,7 +9,7 @@
       "title": "AstryX 开源设计系统",
       "company": "Meta",
       "weeklyStars": 13660,
-      "stars": 28510,
+      "stars": 28516,
       "description": "An open source design system that's fully customizable and agent ready",
       "language": "TypeScript",
       "url": "https://github.com/meta/astryx"
@@ -20,7 +20,7 @@
       "title": "社交账号搜索",
       "company": "Sherlock Project",
       "weeklyStars": 12401,
-      "stars": 112126,
+      "stars": 112134,
       "description": "Hunt down social media accounts by username across social networks",
       "language": "Python",
       "url": "https://github.com/sherlock-project/sherlock"
@@ -31,7 +31,7 @@
       "title": "AI 机器人小队",
       "company": "个人开发者",
       "weeklyStars": 6413,
-      "stars": 23050,
+      "stars": 23053,
       "description": "Open-source Grok Bot alternative with a virtual machine that bots can use",
       "language": "TypeScript",
       "url": "https://github.com/milind-soni/OpenMausBot"
@@ -42,7 +42,7 @@
       "title": "Claude 技能包",
       "company": "Anthropic",
       "weeklyStars": 6220,
-      "stars": 195050,
+      "stars": 195063,
       "description": "Public repository for Agent Skills",
       "language": "Python",
       "url": "https://github.com/anthropics/skills"
@@ -53,7 +53,7 @@
       "title": "方案评审助手",
       "company": "谷歌",
       "weeklyStars": 5539,
-      "stars": 19448,
+      "stars": 19454,
       "description": "Open-source plugin for designing and reviewing software with agents",
       "language": "Python",
       "url": "https://github.com/google/elephant-goldfish-model"
@@ -64,7 +64,7 @@
       "title": "AI 浏览器自动化",
       "company": "Vercel",
       "weeklyStars": 4601,
-      "stars": 51409,
+      "stars": 51412,
       "description": "Browser automation CLI for AI agents",
       "language": "Rust",
       "url": "https://github.com/vercel-labs/agent-browser"
@@ -75,7 +75,7 @@
       "title": "AI 股票分析",
       "company": "个人开发者",
       "weeklyStars": 4526,
-      "stars": 72382,
+      "stars": 72385,
       "description": "LLM 驱动的多市场股票智能分析系统：多源行情、实时新闻、决策看板与自动推送，支持零成本定时运行。  LLM-powered multi-market stock analysis system with multi-source market data, real-time news, decision dashboard, automated notifications, and cost-free scheduled runs.",
       "language": "Python",
       "url": "https://github.com/ZhuLinsen/daily_stock_analysis"
@@ -86,7 +86,7 @@
       "title": "sure",
       "company": "we-promise",
       "weeklyStars": 4483,
-      "stars": 15548,
+      "stars": 15551,
       "description": "The personal finance app for everyone (by everyone)",
       "language": "Ruby",
       "url": "https://github.com/we-promise/sure"
@@ -97,7 +97,7 @@
       "title": "工程智能体技能",
       "company": "个人开发者",
       "weeklyStars": 3670,
-      "stars": 117758,
+      "stars": 117761,
       "description": "Production-grade engineering skills for AI coding agents.",
       "language": "JavaScript",
       "url": "https://github.com/addyosmani/agent-skills"
@@ -108,7 +108,7 @@
       "title": "MuJoCo 物理仿真",
       "company": "谷歌 DeepMind",
       "weeklyStars": 1859,
-      "stars": 18033,
+      "stars": 18035,
       "description": "Multi-Joint dynamics with Contact. A general purpose physics simulator.",
       "language": "C++",
       "url": "https://github.com/google-deepmind/mujoco"
