@@ -1,11 +1,13 @@
 {
   "we-promise/sure": {
     "title": "全民理财应用",
-    "desc": "开源协作打造的个人理财应用，支持多账户、预算与报表。"
+    "desc": "开源协作打造的个人理财应用，支持多账户、预算与报表。",
+    "useCase": "适合想自建隐私记账工具的个人或家庭"
   },
   "meta/astryx": {
     "title": "可定制设计系统",
-    "desc": "开源、可完全定制且面向智能体的设计系统"
+    "desc": "开源、可完全定制且面向智能体的设计系统",
+    "useCase": "适合前端团队构建统一组件库并接入AI Agent交互的项目"
   },
   "sherlock-project/sherlock": {
     "title": "用户名跨平台搜索",
@@ -41,27 +43,33 @@
   },
   "GoogleChrome/modern-web-guidance-src": {
     "title": "现代Web最佳实践",
-    "desc": "为编码代理提供最新Web最佳实践指南"
+    "desc": "为编码代理提供最新Web最佳实践指南",
+    "useCase": "适合需要让AI编程助手遵循最新Web标准的开发团队"
   },
   "dream-num/univer": {
     "title": "Univer AI办公SDK",
-    "desc": "可扩展开源核心，构建编辑计算协作的AI办公套件"
+    "desc": "可扩展开源核心，构建编辑计算协作的AI办公套件",
+    "useCase": "适合想在产品中嵌入类Excel/Word协作编辑的SaaS团队"
   },
   "backnotprop/plannotator": {
     "title": "Agent协作工作台",
-    "desc": "一站式塑造、规划、审查代码并反馈给智能体"
+    "desc": "一站式塑造、规划、审查代码并反馈给智能体",
+    "useCase": "适合需统一管理多AI代理开发流程的研发团队"
   },
   "ChromeDevTools/chrome-devtools-mcp": {
     "title": "编码代理DevTools",
-    "desc": "为编码代理提供Chrome开发者工具能力"
+    "desc": "为编码代理提供Chrome开发者工具能力",
+    "useCase": "适合需要在 AI 编程助手中自动化浏览器调试的开发者"
   },
   "tradermonty/claude-trading-skills": {
     "title": "Claude交易技能库",
-    "desc": "面向投资者的市场分析、选股及策略开发技能集"
+    "desc": "面向投资者的市场分析、选股及策略开发技能集",
+    "useCase": "适合量化交易团队在本地部署 Claude 辅助选股、回测与实盘策略开发"
   },
   "alibaba/open-code-review": {
     "title": "阿里代码审查工具",
-    "desc": "混合架构代码审查，流水线加LLM精准行级评论"
+    "desc": "混合架构代码审查，流水线加LLM精准行级评论",
+    "useCase": "适合大规模研发团队引入AI辅助精准行级代码审查的场景"
   },
   "Tencent/LoopForge": {
     "title": "编码代理交付工作流",
@@ -69,7 +77,8 @@
   },
   "ag-ui-protocol/ag-ui": {
     "title": "Agent用户交互协议",
-    "desc": "标准化协议将智能体引入前端应用交互"
+    "desc": "标准化协议将智能体引入前端应用交互",
+    "useCase": "适合前端团队在 React/Vue 项目中快速接入 LLM Agent 实现对话式 UI"
   },
   "google-labs-code/stitch-skills": {
     "title": "Stitch Agent技能库",
@@ -78,5 +87,10 @@
   "ggml-org/ggml": {
     "title": "GGML张量库",
     "desc": "面向机器学习的高性能张量计算库"
+  },
+  "kajisho5/ffmpeg-skill": {
+    "title": "FFmpeg 本地编辑器",
+    "desc": "提供 42 个 FFmpeg 工具及 MCP 服务供 AI 使用",
+    "useCase": "适合需在本地无云依赖处理视频剪辑、字幕、转码的 AI 开发者"
   }
 }

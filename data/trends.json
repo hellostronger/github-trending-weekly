@@ -11,6 +11,12 @@
       "since": "weekly",
       "stars": 28653,
       "gained": 13660
+    },
+    {
+      "date": "2026-11-20",
+      "since": "weekly",
+      "stars": 30854,
+      "gained": 6250
     }
   ],
   "sherlock-project/sherlock": [
@@ -144,6 +150,12 @@
       "since": "weekly",
       "stars": 15601,
       "gained": 4483
+    },
+    {
+      "date": "2026-11-20",
+      "since": "weekly",
+      "stars": 16645,
+      "gained": 3866
     }
   ],
   "GoogleChrome/modern-web-guidance-src": [
@@ -158,6 +170,12 @@
       "since": "daily",
       "stars": 6882,
       "gained": 1220
+    },
+    {
+      "date": "2026-11-20",
+      "since": "weekly",
+      "stars": 9043,
+      "gained": 7257
     }
   ],
   "dream-num/univer": [
@@ -172,6 +190,12 @@
       "since": "daily",
       "stars": 25380,
       "gained": 1041
+    },
+    {
+      "date": "2026-11-20",
+      "since": "weekly",
+      "stars": 30395,
+      "gained": 6840
     }
   ],
   "backnotprop/plannotator": [
@@ -186,6 +210,12 @@
       "since": "daily",
       "stars": 11682,
       "gained": 860
+    },
+    {
+      "date": "2026-11-20",
+      "since": "weekly",
+      "stars": 13614,
+      "gained": 3290
     }
   ],
   "ChromeDevTools/chrome-devtools-mcp": [
@@ -200,6 +230,12 @@
       "since": "daily",
       "stars": 56751,
       "gained": 718
+    },
+    {
+      "date": "2026-11-20",
+      "since": "weekly",
+      "stars": 58326,
+      "gained": 3143
     }
   ],
   "tradermonty/claude-trading-skills": [
@@ -214,6 +250,12 @@
       "since": "daily",
       "stars": 5308,
       "gained": 707
+    },
+    {
+      "date": "2026-11-20",
+      "since": "weekly",
+      "stars": 7190,
+      "gained": 3242
     }
   ],
   "alibaba/open-code-review": [
@@ -228,6 +270,12 @@
       "since": "daily",
       "stars": 51838,
       "gained": 688
+    },
+    {
+      "date": "2026-11-20",
+      "since": "weekly",
+      "stars": 54336,
+      "gained": 4383
     }
   ],
   "Tencent/LoopForge": [
@@ -256,6 +304,12 @@
       "since": "daily",
       "stars": 17666,
       "gained": 393
+    },
+    {
+      "date": "2026-11-20",
+      "since": "weekly",
+      "stars": 20584,
+      "gained": 3221
     }
   ],
   "google-labs-code/stitch-skills": [
@@ -292,6 +346,14 @@
       "since": "daily",
       "stars": 6068,
       "gained": 221
+    }
+  ],
+  "kajisho5/ffmpeg-skill": [
+    {
+      "date": "2026-11-20",
+      "since": "weekly",
+      "stars": 8215,
+      "gained": 2894
     }
   ]
 }

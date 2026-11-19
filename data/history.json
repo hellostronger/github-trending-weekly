@@ -1,5 +1,12 @@
 [
   {
+    "date": "2026-11-20",
+    "since": "weekly",
+    "top1": "GoogleChrome/modern-web-guidance-src",
+    "top1Title": "现代Web最佳实践",
+    "top1Stars": 9043
+  },
+  {
     "date": "2026-11-16",
     "since": "weekly",
     "top1": "meta/astryx",
