@@ -82,7 +82,8 @@
   },
   "google-labs-code/stitch-skills": {
     "title": "Stitch Agent技能库",
-    "desc": "遵循开放标准，兼容主流编码代理的技能集合"
+    "desc": "遵循开放标准，兼容主流编码代理的技能集合",
+    "useCase": "适合构建基于MCP协议的AI编程助手扩展功能的开发者"
   },
   "ggml-org/ggml": {
     "title": "GGML张量库",
@@ -122,5 +123,20 @@
     "title": "应用上架合规助手",
     "desc": "提供 117 种拒审模式修复及隐私合规检查",
     "useCase": "适合需规避应用商店拒审并满足隐私法规的团队"
+  },
+  "XiaoYouChR/Ghost-Downloader-3": {
+    "title": "万能下载器",
+    "desc": "集成多协议支持的跨平台下载工具",
+    "useCase": "适合需要批量下载视频、音乐、文档的个人用户"
+  },
+  "cursor/plugins": {
+    "title": "Cursor插件规范",
+    "desc": "官方插件规范与插件市场源码",
+    "useCase": "适合开发Cursor扩展或研究编辑器插件架构的开发者"
+  },
+  "cathrynlavery/diagram-design": {
+    "title": "AI编程图表库",
+    "desc": "为主流AI编程助手提供45种自包含HTML+SVG图表设计",
+    "useCase": "适合需要为AI编程工具快速生成技术文档图表的开发者"
   }
 }
