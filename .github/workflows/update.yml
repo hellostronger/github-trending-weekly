@@ -78,5 +78,5 @@ jobs:
             echo "未配置 CLOUDFLARE_API_TOKEN，跳过 Cloudflare 部署"
             exit 0
           fi
-          npx --yes wrangler@3.90.0 pages project create github-trending-weekly --production-branch=main 2>/dev/null || echo "Pages 项目已存在"
-          npx --yes wrangler@3.90.0 pages deploy . --project-name=github-trending-weekly --branch=main --commit-dirty=true
+          npx --yes wrangler@3.90.0 pages project create hellostronger-trending --production-branch=main 2>/dev/null || echo "Pages 项目已存在"
+          npx --yes wrangler@3.90.0 pages deploy . --project-name=hellostronger-trending --branch=main --commit-dirty=true
