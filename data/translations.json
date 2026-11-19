@@ -92,5 +92,35 @@
     "title": "FFmpeg 本地编辑器",
     "desc": "提供 42 个 FFmpeg 工具及 MCP 服务供 AI 使用",
     "useCase": "适合需在本地无云依赖处理视频剪辑、字幕、转码的 AI 开发者"
+  },
+  "obra/superpowers": {
+    "title": "智能体技能框架",
+    "desc": "提供智能体技能框架与软件开发方法论",
+    "useCase": "适合构建AI Agent应用的开发团队"
+  },
+  "elementalsouls/Claude-BugHunter": {
+    "title": "Claude漏洞挖掘技能包",
+    "desc": "提供82个漏洞挖掘技能与红队攻击矩阵",
+    "useCase": "适合从事渗透测试与漏洞研究的安全团队"
+  },
+  "mvanhorn/last30days-skill": {
+    "title": "多源AI调研",
+    "desc": "AI技能，跨平台调研并生成摘要",
+    "useCase": "适合需跨平台热点聚合的市场分析师"
+  },
+  "HKUDS/CLI-Anything": {
+    "title": "CLI万物智能化",
+    "desc": "让所有软件通过CLI具备Agent能力",
+    "useCase": "适合需快速将CLI工具Agent化的工程师"
+  },
+  "firecrawl/firecrawl": {
+    "title": "AI 网页抓取 API",
+    "desc": "统一 API 搜索抓取网页及 550+ 数据源",
+    "useCase": "适合需实时网页数据构建 RAG 应用的开发者"
+  },
+  "mjmirza/app-store-compliance": {
+    "title": "应用上架合规助手",
+    "desc": "提供 117 种拒审模式修复及隐私合规检查",
+    "useCase": "适合需规避应用商店拒审并满足隐私法规的团队"
   }
 }
