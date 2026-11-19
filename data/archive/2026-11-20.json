@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-19T17:10:51.258Z",
+  "generatedAt": "2026-11-19T17:13:33.663Z",
   "generatedAtLocal": "2026-11-20",
   "since": "weekly",
   "topN": 10,
@@ -123,7 +123,7 @@
       "company": "ChromeDevTools",
       "companyEn": "ChromeDevTools",
       "weeklyStars": 3143,
-      "stars": 58328,
+      "stars": 58329,
       "description": "Chrome DevTools for coding agents",
       "descriptionZh": "为编码代理提供Chrome开发者工具能力",
       "useCaseZh": "适合需要在 AI 编程助手中自动化浏览器调试的开发者",
