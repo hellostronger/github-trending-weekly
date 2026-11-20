@@ -15,8 +15,8 @@
     {
       "date": "2026-11-20",
       "since": "weekly",
-      "stars": 30860,
-      "gained": 6250
+      "stars": 31163,
+      "gained": 4977
     }
   ],
   "sherlock-project/sherlock": [
@@ -154,8 +154,8 @@
     {
       "date": "2026-11-20",
       "since": "weekly",
-      "stars": 16650,
-      "gained": 3866
+      "stars": 16797,
+      "gained": 3226
     }
   ],
   "GoogleChrome/modern-web-guidance-src": [
@@ -174,8 +174,8 @@
     {
       "date": "2026-11-20",
       "since": "weekly",
-      "stars": 9046,
-      "gained": 7257
+      "stars": 9332,
+      "gained": 6858
     }
   ],
   "dream-num/univer": [
@@ -194,8 +194,8 @@
     {
       "date": "2026-11-20",
       "since": "weekly",
-      "stars": 30402,
-      "gained": 6840
+      "stars": 30721,
+      "gained": 7248
     }
   ],
   "backnotprop/plannotator": [
@@ -214,8 +214,8 @@
     {
       "date": "2026-11-20",
       "since": "weekly",
-      "stars": 13617,
-      "gained": 3290
+      "stars": 13758,
+      "gained": 3468
     }
   ],
   "ChromeDevTools/chrome-devtools-mcp": [
@@ -234,8 +234,8 @@
     {
       "date": "2026-11-20",
       "since": "weekly",
-      "stars": 58329,
-      "gained": 3143
+      "stars": 58443,
+      "gained": 3229
     }
   ],
   "tradermonty/claude-trading-skills": [
@@ -254,8 +254,8 @@
     {
       "date": "2026-11-20",
       "since": "weekly",
-      "stars": 7191,
-      "gained": 3242
+      "stars": 7326,
+      "gained": 3385
     }
   ],
   "alibaba/open-code-review": [
@@ -274,8 +274,8 @@
     {
       "date": "2026-11-20",
       "since": "weekly",
-      "stars": 54338,
-      "gained": 4383
+      "stars": 54503,
+      "gained": 4492
     }
   ],
   "Tencent/LoopForge": [
@@ -308,8 +308,8 @@
     {
       "date": "2026-11-20",
       "since": "weekly",
-      "stars": 20585,
-      "gained": 3221
+      "stars": 20715,
+      "gained": 3455
     }
   ],
   "google-labs-code/stitch-skills": [
@@ -328,8 +328,8 @@
     {
       "date": "2026-11-20",
       "since": "daily",
-      "stars": 10629,
-      "gained": 303
+      "stars": 10848,
+      "gained": 302
     }
   ],
   "ggml-org/ggml": [
@@ -356,8 +356,8 @@
     {
       "date": "2026-11-20",
       "since": "daily",
-      "stars": 12107,
-      "gained": 1353
+      "stars": 13178,
+      "gained": 1349
     }
   ],
   "kajisho5/ffmpeg-skill": [
@@ -372,64 +372,70 @@
     {
       "date": "2026-11-20",
       "since": "daily",
-      "stars": 321858,
-      "gained": 2029
+      "stars": 322400,
+      "gained": 2028
     }
   ],
   "mvanhorn/last30days-skill": [
     {
       "date": "2026-11-20",
       "since": "daily",
-      "stars": 70638,
-      "gained": 952
+      "stars": 71089,
+      "gained": 954
+    },
+    {
+      "date": "2026-11-20",
+      "since": "weekly",
+      "stars": 71089,
+      "gained": 3179
     }
   ],
   "HKUDS/CLI-Anything": [
     {
       "date": "2026-11-20",
       "since": "daily",
-      "stars": 60361,
-      "gained": 899
+      "stars": 60868,
+      "gained": 898
     }
   ],
   "firecrawl/firecrawl": [
     {
       "date": "2026-11-20",
       "since": "daily",
-      "stars": 203853,
-      "gained": 795
+      "stars": 204648,
+      "gained": 825
     }
   ],
   "mjmirza/app-store-compliance": [
     {
       "date": "2026-11-20",
       "since": "daily",
-      "stars": 1656,
-      "gained": 542
+      "stars": 2264,
+      "gained": 377
     }
   ],
   "XiaoYouChR/Ghost-Downloader-3": [
     {
       "date": "2026-11-20",
       "since": "daily",
-      "stars": 12485,
-      "gained": 449
+      "stars": 13226,
+      "gained": 341
     }
   ],
   "cursor/plugins": [
     {
       "date": "2026-11-20",
       "since": "daily",
-      "stars": 17481,
-      "gained": 383
+      "stars": 17670,
+      "gained": 384
     }
   ],
   "cathrynlavery/diagram-design": [
     {
       "date": "2026-11-20",
       "since": "daily",
-      "stars": 68487,
-      "gained": 332
+      "stars": 68915,
+      "gained": 271
     }
   ]
 }
