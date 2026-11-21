@@ -138,5 +138,20 @@
     "title": "AI编程图表库",
     "desc": "为主流AI编程助手提供45种自包含HTML+SVG图表设计",
     "useCase": "适合需要为AI编程工具快速生成技术文档图表的开发者"
+  },
+  "zhouxiaoka/autoclip": {
+    "title": "AI一键切片工具",
+    "desc": "开源桌面端AI视频剪辑工具，长视频自动生成短视频及文案。",
+    "useCase": "适合自媒体运营者快速将播客、课程转发布抖音、小红书短视频"
+  },
+  "jingyaogong/minimind": {
+    "title": "极速训练小模型",
+    "desc": "提供从零训练64M参数大模型的完整教程与代码，两小时出模型。",
+    "useCase": "适合LLM入门开发者低成本本地实践完整预训练与微调流程"
+  },
+  "toeverything/AFFiNE": {
+    "title": "开源知识库白板",
+    "desc": "融合文档、白板与数据库的隐私优先开源知识库",
+    "useCase": "适合需本地部署、替代Notion/Miro的团队协作与个人知识管理"
   }
 }
