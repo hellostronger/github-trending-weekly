@@ -1,5 +1,19 @@
 [
   {
+    "date": "2026-11-22",
+    "since": "weekly",
+    "top1": "dream-num/univer",
+    "top1Title": "Univer AI办公SDK",
+    "top1Stars": 31153
+  },
+  {
+    "date": "2026-11-22",
+    "since": "daily",
+    "top1": "elementalsouls/Claude-BugHunter",
+    "top1Title": "Claude漏洞挖掘技能包",
+    "top1Stars": 16601
+  },
+  {
     "date": "2026-11-21",
     "since": "weekly",
     "top1": "dream-num/univer",
