@@ -29,6 +29,12 @@
       "since": "weekly",
       "stars": 31963,
       "gained": 3967
+    },
+    {
+      "date": "2026-11-23",
+      "since": "weekly",
+      "stars": 32371,
+      "gained": 3626
     }
   ],
   "sherlock-project/sherlock": [
@@ -200,6 +206,12 @@
       "since": "weekly",
       "stars": 10003,
       "gained": 4400
+    },
+    {
+      "date": "2026-11-23",
+      "since": "weekly",
+      "stars": 10346,
+      "gained": 3575
     }
   ],
   "dream-num/univer": [
@@ -232,6 +244,12 @@
       "since": "weekly",
       "stars": 31153,
       "gained": 7240
+    },
+    {
+      "date": "2026-11-23",
+      "since": "weekly",
+      "stars": 31365,
+      "gained": 6436
     }
   ],
   "backnotprop/plannotator": [
@@ -264,6 +282,12 @@
       "since": "weekly",
       "stars": 14247,
       "gained": 3396
+    },
+    {
+      "date": "2026-11-23",
+      "since": "weekly",
+      "stars": 14550,
+      "gained": 2815
     }
   ],
   "ChromeDevTools/chrome-devtools-mcp": [
@@ -328,6 +352,12 @@
       "since": "weekly",
       "stars": 7680,
       "gained": 3113
+    },
+    {
+      "date": "2026-11-23",
+      "since": "weekly",
+      "stars": 7864,
+      "gained": 2616
     }
   ],
   "alibaba/open-code-review": [
@@ -360,6 +390,12 @@
       "since": "weekly",
       "stars": 55213,
       "gained": 4032
+    },
+    {
+      "date": "2026-11-23",
+      "since": "weekly",
+      "stars": 55547,
+      "gained": 3700
     }
   ],
   "Tencent/LoopForge": [
@@ -406,6 +442,12 @@
       "since": "weekly",
       "stars": 21075,
       "gained": 3792
+    },
+    {
+      "date": "2026-11-23",
+      "since": "weekly",
+      "stars": 21283,
+      "gained": 3620
     }
   ],
   "google-labs-code/stitch-skills": [
@@ -426,6 +468,12 @@
       "since": "daily",
       "stars": 10848,
       "gained": 302
+    },
+    {
+      "date": "2026-11-23",
+      "since": "weekly",
+      "stars": 12080,
+      "gained": 2683
     }
   ],
   "ggml-org/ggml": [
@@ -466,6 +514,12 @@
       "since": "daily",
       "stars": 16601,
       "gained": 1803
+    },
+    {
+      "date": "2026-11-23",
+      "since": "daily",
+      "stars": 18651,
+      "gained": 1716
     }
   ],
   "kajisho5/ffmpeg-skill": [
@@ -486,6 +540,12 @@
       "since": "weekly",
       "stars": 9428,
       "gained": 3598
+    },
+    {
+      "date": "2026-11-23",
+      "since": "weekly",
+      "stars": 9952,
+      "gained": 3748
     }
   ],
   "obra/superpowers": [
@@ -506,6 +566,12 @@
       "since": "daily",
       "stars": 323951,
       "gained": 883
+    },
+    {
+      "date": "2026-11-23",
+      "since": "daily",
+      "stars": 324520,
+      "gained": 788
     }
   ],
   "mvanhorn/last30days-skill": [
@@ -544,6 +610,18 @@
       "since": "daily",
       "stars": 72249,
       "gained": 560
+    },
+    {
+      "date": "2026-11-23",
+      "since": "weekly",
+      "stars": 73058,
+      "gained": 4731
+    },
+    {
+      "date": "2026-11-23",
+      "since": "daily",
+      "stars": 73058,
+      "gained": 668
     }
   ],
   "HKUDS/CLI-Anything": [
@@ -564,6 +642,12 @@
       "since": "daily",
       "stars": 62313,
       "gained": 769
+    },
+    {
+      "date": "2026-11-23",
+      "since": "daily",
+      "stars": 63118,
+      "gained": 699
     }
   ],
   "firecrawl/firecrawl": [
@@ -584,6 +668,12 @@
       "since": "daily",
       "stars": 206476,
       "gained": 1006
+    },
+    {
+      "date": "2026-11-23",
+      "since": "daily",
+      "stars": 207384,
+      "gained": 915
     }
   ],
   "mjmirza/app-store-compliance": [
@@ -604,6 +694,12 @@
       "since": "daily",
       "stars": 3598,
       "gained": 720
+    },
+    {
+      "date": "2026-11-23",
+      "since": "daily",
+      "stars": 4368,
+      "gained": 621
     }
   ],
   "XiaoYouChR/Ghost-Downloader-3": [
@@ -624,6 +720,12 @@
       "since": "daily",
       "stars": 14692,
       "gained": 779
+    },
+    {
+      "date": "2026-11-23",
+      "since": "daily",
+      "stars": 15772,
+      "gained": 701
     }
   ],
   "cursor/plugins": [
@@ -646,6 +748,12 @@
       "since": "daily",
       "stars": 69980,
       "gained": 583
+    },
+    {
+      "date": "2026-11-23",
+      "since": "daily",
+      "stars": 70610,
+      "gained": 518
     }
   ],
   "zhouxiaoka/autoclip": [
@@ -660,6 +768,12 @@
       "since": "daily",
       "stars": 13075,
       "gained": 683
+    },
+    {
+      "date": "2026-11-23",
+      "since": "daily",
+      "stars": 13978,
+      "gained": 641
     }
   ],
   "jingyaogong/minimind": [
@@ -682,6 +796,12 @@
       "since": "daily",
       "stars": 76474,
       "gained": 574
+    },
+    {
+      "date": "2026-11-23",
+      "since": "daily",
+      "stars": 77063,
+      "gained": 542
     }
   ]
 }
