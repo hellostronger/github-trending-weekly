@@ -1,5 +1,19 @@
 [
   {
+    "date": "2026-11-28",
+    "since": "weekly",
+    "top1": "mvanhorn/last30days-skill",
+    "top1Title": "多源AI调研",
+    "top1Stars": 76531
+  },
+  {
+    "date": "2026-11-28",
+    "since": "daily",
+    "top1": "elementalsouls/Claude-BugHunter",
+    "top1Title": "Claude漏洞挖掘技能包",
+    "top1Stars": 26555
+  },
+  {
     "date": "2026-11-27",
     "since": "weekly",
     "top1": "mvanhorn/last30days-skill",
